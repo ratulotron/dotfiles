@@ -1,0 +1,11 @@
+theme = tokyonight
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
+font-family = BlexMono Nerd Font Mono
+
+# Quick terminal for macOS
+quick-terminal-position = top
+quick-terminal-screen = main
+quick-terminal-autohide = true
+keybind = global:cmd+grave_accent=toggle_quick_terminal

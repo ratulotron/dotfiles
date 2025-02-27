@@ -1,0 +1,76 @@
+# C
+[[language]]
+name = "c"
+auto-format = false
+language-servers = [ "clangd" ]
+
+[language-server.clangd]
+command = "clangd"
+config = { clangd.fallbackFlags = [ "-std=gnu11" ] }
+args = []
+
+# Python
+[[language]]
+name = "python"
+auto-format = true
+# comment-token = "#"
+file-types = ["py","pyi","py3","pyw",".pythonstartup",".pythonrc"]
+indent = { tab-width = 4, unit = "    " }
+injection-regex = "python"
+language-servers = ["ruff"]
+roots = [".", "pyproject.toml"]
+shebangs = ["python"]
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[language-server.ruff.config.settings]
+logLevel = "debug"
+
+[[language]]
+name = "rust"
+language-servers = ["rust-analyzer"]
+scope = "source.rust"
+injection-regex = "rust"
+file-types = ["rs"]
+# comment-token = "//"
+indent = { tab-width = 4, unit = "	"}
+auto-format = true
+
+[[language]]
+name = "html"
+formatter = { command = 'prettier', args = ["--parser", "html"] }
+
+[[language]]
+name = "json"
+formatter = { command = 'prettier', args = ["--parser", "json"] }
+
+[[language]]
+name = "css"
+formatter = { command = 'prettier', args = ["--parser", "css"] }
+
+[[language]]
+name = "javascript"
+formatter = { command = 'prettier', args = ["--parser", "typescript"] }
+auto-format = true
+
+[[language]]
+name = "typescript"
+formatter = { command = 'prettier', args = ["--parser", "typescript"] }
+auto-format = true
+
+[[language]]
+name = "markdown"
+formatter = { command = 'prettier', args = ["--parser", "markdown"] }
+auto-format = true
+
+[[language]]
+name = "hcl"
+formatter = { command = 'terraform', args = ["fmt", "-"] }
+auto-format = true
+
+[[language]]
+name = "tfvars"
+formatter = { command = 'terraform', args = ["fmt", "-"] }
+auto-format = true

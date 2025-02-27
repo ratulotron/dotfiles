@@ -1,0 +1,56 @@
+theme = "tokyonight"
+
+[editor]
+auto-save = true
+# Show currently open buffers, only when more than one exists.
+# bufferline = "multiple"
+bufferline = "always"
+# Highlight all lines with a cursor
+cursorline = true
+# Minimum severity to show a diagnostic after the end of a line
+end-of-line-diagnostics = "hint"
+# Use relative line numbers
+line-number = "relative"
+preview-completion-insert = true
+# Show a ruler at column 120
+rulers = [120]
+# Shell
+shell = ["zsh", "-cu"]
+# Force the theme to show colors
+true-color = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.indent-guides]
+character = "⸽" # Some characters that work well: "▏", "┆", "┊", "⸽"
+render = true
+
+[editor.inline-diagnostics]
+cursor-line = "error" # Show inline diagnostics when the cursor is on the line
+other-lines = "disable" # Don't expand diagnostics unless the cursor is on the line
+
+[editor.lsp]
+display-inlay-hints = true
+
+[editor.statusline]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+center = ["version-control"]
+left = ["mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator"]
+
+[editor.whitespace.render]
+tab = "all"
+tabpad = "all"
+newline = "none"
+
+# Modified keybinding in Normal mode
+[keys.normal]
+"C-s" = ":w" # Ctrl-s saves the current file
+"ret" = ["open_below", "normal_mode"] # Enter adds line above
