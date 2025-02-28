@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# Helix
+# Atuin
 #
-# Links Helix configuration to ~/.config/
+# Links Atuin configuration to ~/.config/
 
-DIRNAME=helix
+DIRNAME=atuin
 
 SOURCE=~/.dotfiles/$DIRNAME
 TARGET=~/.config/$DIRNAME

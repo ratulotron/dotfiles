@@ -3,4 +3,11 @@
 # Atuin
 #
 # Installs Atuin for better search history
-curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+
+# Check for Homebrew
+if test ! $(which atuin)
+then
+  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+fi
+
+exit 0

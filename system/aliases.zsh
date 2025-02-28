@@ -1,10 +1,17 @@
-# grc overides for ls
-#   Made possible through contributions from generous benefactors like
-#   `brew install coreutils`
-if $(gls &>/dev/null)
-then
-  alias ls="gls -F --color"
-  alias l="gls -lAh --color"
-  alias ll="gls -l --color"
-  alias la='gls -A --color'
+# eza aliases
+
+if command -v eza &> /dev/null; then
+  alias ls="eza --grid --long"
+  alias lt="eza --long --tree --level=3"
+  alias l="ls"
+  alias ll="eza --long"
+  alias la='eza --long --all'
 fi
+
+# then
+#   alias ls="eza --grid --long"
+#   alias lt="eza --long --tree --level=3"
+#   alias l="gls -lAh --color"
+#   alias ll="gls -l --color"
+#   alias la='gls -A --color'
+# fi

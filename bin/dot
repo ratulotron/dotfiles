@@ -38,10 +38,11 @@ while test $# -gt 0; do
 	shift
 done
 
-export ZSH=$HOME/.dotfiles
+export DOTFILES=$HOME/.dotfiles
 
 # Update dotfiles themselves
 echo "› git pull"
+echo "$DOTFILES"
 git -C $DOTFILES pull
 
 # Set macOS defaults
