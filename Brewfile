@@ -3,7 +3,6 @@ cask_args appdir: '/Applications'
 tap 'homebrew/bundle'
 
 brew 'eza'
-<<<<<<< Updated upstream
 brew 'ffmpeg'
 brew 'git'
 brew 'helix'
@@ -28,7 +27,6 @@ cask 'raycast'
 cask 'slack'
 cask 'spotify'
 cask 'syncplay'
-=======
 brew 'mise'
 brew 'spotify'
 brew 'helix'
@@ -42,7 +40,6 @@ brew 'yt-dlp'
 cask 'android-platform-tools'
 cask 'notion-calendar'
 cask 'raycast'
->>>>>>> Stashed changes
 cask 'whatsapp'
 cask 'visual-studio-code'
 cask 'vlc'
