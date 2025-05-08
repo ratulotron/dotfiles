@@ -3,6 +3,7 @@ clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
 font-family = BlexMono Nerd Font Mono
+font-size = 14
 
 # Quick terminal for macOS
 quick-terminal-position = top

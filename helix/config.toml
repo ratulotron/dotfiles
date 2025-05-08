@@ -28,7 +28,7 @@ select = "underline"
 hidden = false
 
 [editor.indent-guides]
-character = "⸽" # Some characters that work well: "▏", "┆", "┊", "⸽"
+character = "┊" # Some characters that work well: "▏", "┆", "┊", "⸽"
 render = true
 
 [editor.inline-diagnostics]
