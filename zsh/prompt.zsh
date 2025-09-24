@@ -62,7 +62,11 @@
 
 #   if [[ $(sysctl -n hw.model) == *"Book"* ]]
 #   then
+<<<<<<< Updated upstream
 #     $DOTFILES/bin/battery-status
+=======
+#     $ZSH/bin/battery-status
+>>>>>>> Stashed changes
 #   fi
 # }
 
@@ -75,3 +79,7 @@
 #   title "zsh" "%m" "%55<...<%~"
 #   set_prompt
 # }
+<<<<<<< Updated upstream
+=======
+eval "$(starship init zsh)"
+>>>>>>> Stashed changes
