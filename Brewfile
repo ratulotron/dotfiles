@@ -23,7 +23,6 @@ cask 'livebook'
 cask 'postman'
 cask 'popsql'
 cask 'visual-studio-code'
-cask 'windsurf'
 
 # System Applications
 cask 'android-platform-tools'

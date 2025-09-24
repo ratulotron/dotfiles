@@ -183,20 +183,15 @@ common_subcommands = [
   "podman",
   "ruff",
   "systemctl",
-  "uv"
+  "uv",
+  "pre-commit",
 ]
 
 ## Set commands that should be totally stripped and ignored from stats
-common_prefix = ["sudo"]
+common_prefix = ["sudo", "brew"]
 
 ## Set commands that will be completely ignored from stats
-ignored_commands = [
-  "cd",
-  "ls",
-  "vi",
-  "vim",
-  "hx"
-]
+ignored_commands = ["cd", "ls", "la", "vi", "vim", "hx", "mkdir"]
 
 [keys]
 # Defaults to true. If disabled, using the up/down key won't exit the TUI when scrolled past the first/last entry.
@@ -236,7 +231,7 @@ records = true
 ## The port that should be used for TCP on non unix systems
 # tcp_port = 8889
 
-# [theme]
+[theme]
 ## Color theme to use for rendering in the terminal.
 ## There are some built-in themes, including the base theme ("default"),
 ## "autumn" and "marine". You can add your own themes to the "./themes" subdirectory of your
@@ -246,7 +241,7 @@ records = true
 ##    https://ogeon.github.io/docs/palette/master/palette/named/index.html
 ## If you provide a custom theme file, it should be  called "NAME.toml" and the theme below
 ## should be the stem, i.e. `theme = "NAME"` for your chosen NAME.
-name = "marine"
+name = "default"
 
 ## Whether the theme manager should output normal or extra information to help fix themes.
 ## Boolean, true or false. If unset, left up to the theme manager.
