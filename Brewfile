@@ -44,12 +44,9 @@ cask 'qbittorrent'
 
 # Communication
 cask 'discord'
-<<<<<<< HEAD
 cask 'font-blex-mono-nerd-font'
 cask 'ghostty'
 brew 'postgresql@14'
-=======
->>>>>>> ba1f4ad (merged)
 cask 'messenger'
 cask 'notion'
 cask 'notion-calendar'
