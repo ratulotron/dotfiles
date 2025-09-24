@@ -36,3 +36,5 @@
 [user]
 	email = minhaz.ratul@gmail.com
 	name = Ratul Minhaz
+[pull]
+	rebase = true
