@@ -2,73 +2,56 @@ cask_args appdir: '/Applications'
 
 tap 'homebrew/bundle'
 
+# System Tools
 brew 'atuin'
-# System
-cask 'android-platform-tools'
-cask 'bitwarden'
-cask 'iterm2'
 brew 'eza'
-# brew 'ffmpeg'
-cask 'ghostty'
-brew 'ffmpeg'
 brew 'git'
 brew 'helix'
 brew 'htop'
-
-# Utilities
+brew 'mise'
+brew 'starship'
 brew 'wget'
-cask 'raycast'
-cask 'rectangle'
-cask 'cleanmymac'
 brew 'yt-dlp'
 
 # Development
-brew 'git'
-brew 'helix'
-brew 'jq'
 brew 'fzf'
+brew 'jq'
+brew 'postgresql@14'
+brew 'spaceman-diff'
 cask 'docker'
 cask 'livebook'
-brew 'mise'
 cask 'postman'
-brew 'spaceman-diff'
-brew 'starship'
-cask 'visual-studio-code'
 cask 'popsql'
+cask 'visual-studio-code'
+cask 'windsurf'
 
-# Media
+# System Applications
+cask 'android-platform-tools'
+cask 'bitwarden'
+cask 'ghostty'
+cask 'iterm2'
+
+# Utilities
+cask 'cleanmymac'
+cask 'raycast'
+cask 'rectangle'
+
+# Media & Entertainment
+brew 'ffmpeg'
+cask 'qbittorrent'
 cask 'spotify'
 cask 'syncplay'
 cask 'vlc'
-cask 'qbittorrent'
 
 # Communication
 cask 'discord'
-cask 'font-blex-mono-nerd-font'
-cask 'ghostty'
-brew 'postgresql@14'
 cask 'messenger'
 cask 'notion'
 cask 'notion-calendar'
 cask 'slack'
-cask 'spotify'
-cask 'syncplay'
-brew 'mise'
-brew 'spotify'
-brew 'helix'
-brew 'starship'
-brew 'git'
-
-brew 'spaceman-diff'
-brew 'wget'
-brew 'yt-dlp'
-
-cask 'android-platform-tools'
-cask 'notion-calendar'
-cask 'raycast'
 cask 'whatsapp'
-cask 'windsurf'
 cask 'zoom'
+
 # Browsers
 cask 'zen-browser@twilight'
 
