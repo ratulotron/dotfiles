@@ -56,3 +56,8 @@ cask 'zen-browser@twilight'
 
 # Fonts
 cask 'font-blex-mono-nerd-font'
+
+# AI Tools
+cask 'claude'
+cask 'claude-code'
+cask 'chatgpt'
