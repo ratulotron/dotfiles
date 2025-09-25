@@ -61,3 +61,6 @@ cask 'font-blex-mono-nerd-font'
 cask 'claude'
 cask 'claude-code'
 cask 'chatgpt'
+
+# Work
+cask 'figma'
