@@ -1,0 +1,228 @@
+#!/usr/bin/env bash
+
+# Development workflow automation script
+# Based on insights from popular dotfiles repositories
+
+set -e
+
+echo "🚀 Development Environment Setup"
+
+# Function to check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Check for required tools
+check_requirements() {
+    echo "🔍 Checking requirements..."
+    
+    local missing_tools=()
+    
+    for tool in git brew zsh; do
+        if ! command_exists "$tool"; then
+            missing_tools+=("$tool")
+        fi
+    done
+    
+    if [ ${#missing_tools[@]} -ne 0 ]; then
+        echo "❌ Missing required tools: ${missing_tools[*]}"
+        echo "Please install these tools before running this script."
+        exit 1
+    fi
+    
+    echo "✅ All requirements met"
+}
+
+# Update system packages
+update_system() {
+    echo "📦 Updating system packages..."
+    
+    # Update Homebrew
+    if command_exists brew; then
+        echo "Updating Homebrew..."
+        brew update
+        brew upgrade
+        brew cleanup
+    fi
+    
+    # Update npm packages globally
+    if command_exists npm; then
+        echo "Updating global npm packages..."
+        npm update -g
+    fi
+    
+    # Update Python packages
+    if command_exists pip3; then
+        echo "Updating pip..."
+        pip3 install --upgrade pip
+    fi
+    
+    # Update Rust toolchain
+    if command_exists rustup; then
+        echo "Updating Rust toolchain..."
+        rustup update
+    fi
+    
+    echo "✅ System packages updated"
+}
+
+# Git configuration helpers
+setup_git_config() {
+    echo "🔧 Checking Git configuration..."
+    
+    if [ -z "$(git config --global user.name)" ]; then
+        read -p "Enter your Git username: " git_username
+        git config --global user.name "$git_username"
+    fi
+    
+    if [ -z "$(git config --global user.email)" ]; then
+        read -p "Enter your Git email: " git_email
+        git config --global user.email "$git_email"
+    fi
+    
+    echo "✅ Git configured for $(git config --global user.name) <$(git config --global user.email)>"
+}
+
+# SSH key generation
+setup_ssh_keys() {
+    if [ ! -f ~/.ssh/id_rsa ]; then
+        echo "🔑 Generating SSH key..."
+        ssh-keygen -t rsa -b 4096 -C "$(git config --global user.email)" -f ~/.ssh/id_rsa -N ""
+        echo "✅ SSH key generated"
+        
+        if command_exists pbcopy; then
+            pbcopy < ~/.ssh/id_rsa.pub
+            echo "📋 Public key copied to clipboard"
+            echo "Add it to GitHub: https://github.com/settings/ssh/new"
+        fi
+    else
+        echo "✅ SSH key already exists"
+    fi
+}
+
+# Development directories setup
+setup_dev_directories() {
+    echo "📁 Setting up development directories..."
+    
+    local dev_dirs=(
+        "$HOME/Projects"
+        "$HOME/Code"
+        "$HOME/.config"
+        "$HOME/.local/bin"
+    )
+    
+    for dir in "${dev_dirs[@]}"; do
+        if [ ! -d "$dir" ]; then
+            mkdir -p "$dir"
+            echo "Created: $dir"
+        fi
+    done
+    
+    echo "✅ Development directories ready"
+}
+
+# Install additional development tools
+install_dev_tools() {
+    echo "🛠 Installing additional development tools..."
+    
+    # Install Node Version Manager if not present
+    if [ ! -d "$HOME/.nvm" ]; then
+        echo "Installing NVM..."
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+    fi
+    
+    # Install Python version manager if not present
+    if ! command_exists pyenv && command_exists brew; then
+        echo "Installing pyenv..."
+        brew install pyenv
+    fi
+    
+    echo "✅ Additional tools installed"
+}
+
+# Performance optimization
+optimize_shell() {
+    echo "⚡ Optimizing shell performance..."
+    
+    # Create .hushlogin to suppress login message
+    touch ~/.hushlogin
+    
+    # Optimize zsh history
+    if [ -n "$ZSH_VERSION" ]; then
+        # These are handled in our zsh config, but let's ensure they exist
+        echo "export HISTSIZE=10000" >> ~/.zshrc.local 2>/dev/null || true
+        echo "export SAVEHIST=10000" >> ~/.zshrc.local 2>/dev/null || true
+    fi
+    
+    echo "✅ Shell optimized"
+}
+
+# Show helpful information
+show_info() {
+    echo ""
+    echo "🎉 Setup complete! Here are some useful commands:"
+    echo ""
+    echo "📊 System Information:"
+    echo "  sysinfo          - Show system information"
+    echo "  stats            - Show most used commands"
+    echo ""
+    echo "🔧 Development:"
+    echo "  p <project>      - Navigate to project"
+    echo "  dev <type>       - Start development server"
+    echo "  gac 'message'    - Git add all and commit"
+    echo ""
+    echo "🐳 Docker:"
+    echo "  drun <image>     - Run container interactively"
+    echo "  dexec <container>- Execute command in container"
+    echo "  dcleanup         - Clean up Docker resources"
+    echo ""
+    echo "🌐 Network:"
+    echo "  myips            - Show IP addresses"
+    echo "  killport <port>  - Kill process on port"
+    echo "  weather [city]   - Get weather forecast"
+    echo ""
+    echo "💡 Tips:"
+    echo "  - Use 'als' to see all available aliases"
+    echo "  - Use 'reload!' to reload shell configuration"
+    echo "  - Check ~/.dotfiles/README.md for more info"
+    echo ""
+}
+
+# Main execution
+main() {
+    check_requirements
+    update_system
+    setup_git_config
+    setup_ssh_keys
+    setup_dev_directories
+    install_dev_tools
+    optimize_shell
+    show_info
+}
+
+# Show usage if help requested
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    echo "Usage: $0 [options]"
+    echo ""
+    echo "Development environment setup and maintenance script"
+    echo ""
+    echo "Options:"
+    echo "  --help, -h    Show this help message"
+    echo "  --update      Update system packages only"
+    echo "  --info        Show helpful commands only"
+    echo ""
+    exit 0
+fi
+
+# Handle specific options
+case "${1:-}" in
+    --update)
+        update_system
+        ;;
+    --info)
+        show_info
+        ;;
+    *)
+        main
+        ;;
+esac

@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+#
+# dotfiles health check - verify all symlinks are working correctly
+
+set -e
+
+cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
+
+info () {
+  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+}
+
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+warn () {
+  printf "\r\033[2K  [ \033[0;33mWARN\033[0m ] $1\n"
+}
+
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+}
+
+check_symlinks () {
+  info "Checking symlink health..."
+  
+  local broken=0
+  local working=0
+  local missing=0
+
+  # Check all expected symlinks
+  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*')
+  do
+    # Get the relative path from DOTFILES_ROOT
+    rel_path=${src#$DOTFILES_ROOT/}
+    topic=$(echo "$rel_path" | cut -d'/' -f1)
+    filename=$(basename "${src%.*}")
+    
+    # Determine expected target based on path structure and topic
+    if [[ "$topic" == "vscode" ]]; then
+      # VS Code files go to ~/Library/Application Support/Code/User/
+      dst="$HOME/Library/Application Support/Code/User/$filename"
+    elif [[ "$rel_path" == */config/* ]]; then
+      dst="$HOME/.config/$topic/$filename"
+    else
+      dst="$HOME/.$filename"
+    fi
+    
+    if [ -L "$dst" ]; then
+      # Symlink exists, check if it's working
+      if [ -e "$dst" ]; then
+        success "✓ $dst -> $(readlink "$dst")"
+        ((working++))
+      else
+        fail "✗ $dst -> $(readlink "$dst") (broken)"
+        ((broken++))
+      fi
+    else
+      warn "✗ $dst (missing symlink)"
+      ((missing++))
+    fi
+  done
+
+  echo ""
+  info "Symlink Status:"
+  success "Working: $working"
+  if [ $missing -gt 0 ]; then
+    warn "Missing: $missing"
+  fi
+  if [ $broken -gt 0 ]; then
+    fail "Broken: $broken"
+  fi
+
+  if [ $broken -gt 0 ] || [ $missing -gt 0 ]; then
+    echo ""
+    info "Run './script/bootstrap' to fix missing/broken symlinks"
+    return 1
+  fi
+}
+
+check_dependencies () {
+  info "Checking dependencies..."
+  
+  local missing_deps=()
+  
+  # Check for required tools
+  command -v brew >/dev/null 2>&1 || missing_deps+=("homebrew")
+  command -v git >/dev/null 2>&1 || missing_deps+=("git")
+  command -v zsh >/dev/null 2>&1 || missing_deps+=("zsh")
+  
+  # Check for modern CLI tools
+  command -v bat >/dev/null 2>&1 || missing_deps+=("bat")
+  command -v fd >/dev/null 2>&1 || missing_deps+=("fd")
+  command -v rg >/dev/null 2>&1 || missing_deps+=("ripgrep")
+  command -v eza >/dev/null 2>&1 || missing_deps+=("eza")
+  
+  if [ ${#missing_deps[@]} -eq 0 ]; then
+    success "All dependencies are installed"
+  else
+    warn "Missing dependencies: ${missing_deps[*]}"
+    info "Run './script/install' to install missing dependencies"
+  fi
+}
+
+check_shell () {
+  info "Checking shell configuration..."
+  
+  if [ "$SHELL" = "/bin/zsh" ] || [ "$SHELL" = "/usr/bin/zsh" ] || [[ "$SHELL" == */zsh ]]; then
+    success "Using zsh shell"
+  else
+    warn "Not using zsh shell (current: $SHELL)"
+    info "Run 'chsh -s \$(which zsh)' to change your shell"
+  fi
+  
+  if [ -f "$HOME/.zshrc" ]; then
+    success "Found ~/.zshrc"
+  else
+    fail "Missing ~/.zshrc - run bootstrap to create symlink"
+  fi
+}
+
+echo "🔍 Dotfiles Health Check"
+echo "========================"
+
+check_dependencies
+echo ""
+check_shell  
+echo ""
+check_symlinks
+
+echo ""
+info "Health check complete!"

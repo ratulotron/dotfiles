@@ -1,13 +1,67 @@
 #!/usr/bin/env bash
 #
-# Run all dotfiles installers.
+# Install all tools and dependencies
 
 set -e
 
 cd "$(dirname $0)"/..
 
-echo "› brew bundle"
-brew bundle
+show_help() {
+  cat << EOF
+install - Install all tools and dependencies
 
-# find the installers and run them iteratively
-find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+USAGE:
+    ./script/install [options]
+
+OPTIONS:
+    --dry-run       Preview what would be done
+    --help          Show this help message
+
+EXAMPLES:
+    ./script/install                    # Install all tools
+    ./script/install --dry-run          # Preview installation
+EOF
+}
+
+# Parse arguments
+DRY_RUN=false
+
+for arg in "$@"; do
+  case $arg in
+    --dry-run)
+      DRY_RUN=true
+      shift
+      ;;
+    --help|-h)
+      show_help
+      exit 0
+      ;;
+  esac
+done
+
+echo "› installing tools and dependencies"
+
+# Install Homebrew packages
+if [ "$DRY_RUN" = "true" ]; then
+  echo "› [DRY RUN] Would run: brew bundle"
+else
+  echo "› brew bundle"
+  brew bundle
+fi
+
+# Run topic install scripts  
+echo "› running topic install scripts"
+find . -name install.sh | while read installer ; do 
+  if [ "$DRY_RUN" = "true" ]; then
+    echo "  › [DRY RUN] Would run: $installer"
+  else
+    echo "  › running $installer"
+    sh -c "${installer}" 
+  fi
+done
+
+if [ "$DRY_RUN" = "true" ]; then
+  echo "› dry run complete!"
+else
+  echo "› tool installation complete!"
+fi

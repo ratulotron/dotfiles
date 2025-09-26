@@ -1,31 +1,224 @@
 #!/usr/bin/env bash
-
-# Link all the things!
+#
+# Link all .symlink files to their appropriate locations
+# This is the pure linking functionality extracted from bootstrap
 
 set -e
 
 cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
 
-DOTFILES=$HOME/.dotfiles
+info () {
+  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+}
 
-echo "Creating symlink for dotfiles in .config"
-# Create directory if it doesn't exist
-if [[ ! -d "$HOME/.config" ]]
-then
-  mkdir $HOME/.config
-fi
+success () {
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n" 
+}
 
-if [[ ! -L "$DOTFILES" && ! -d "$DOTFILES" ]]
-then
-  ln -s "$(pwd)" $DOTFILES
-fi
+warn () {
+  printf "\r\033[2K  [ \033[0;33mWARN\033[0m ] $1\n"
+}
 
-# Source: https://github.com/nicknisi/dotfiles/blob/master/install/link.sh
-for file in $( find -H "$DOTFILES" -maxdepth 3 -name '*.symlink' ) ; do
-  target="$HOME/.$( basename $file '.symlink' )"
-  echo "Creating symlink for $file"
-  ln -sf $file $target
+fail () {
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  echo ''
+  exit 1
+}
+
+user () {
+  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
+}
+
+link_file () {
+  local src=$1 dst=$2
+
+  local overwrite= backup= skip=
+  local action=
+
+  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
+  then
+    # If target is already a symlink pointing to our source, skip silently
+    if [ -L "$dst" ]; then
+      local currentSrc="$(readlink "$dst")"
+      if [ "$currentSrc" == "$src" ]; then
+        skip=true
+      fi
+    fi
+
+    # Only prompt if not already correctly symlinked and no global options set
+    if [ "$skip" != "true" ] && [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+    then
+
+        echo ""
+        user "File already exists: $dst"
+        echo "  Dotfiles: $(basename "$src") (modified: $(stat -f '%Sm' -t '%Y-%m-%d %H:%M' "$src"))"
+        echo "  Existing: $dst (modified: $(stat -f '%Sm' -t '%Y-%m-%d %H:%M' "$dst"))"
+        echo ""
+        # Determine which file is newer
+        local src_time=$(stat -f '%m' "$src" 2>/dev/null || echo 0)
+        local dst_time=$(stat -f '%m' "$dst" 2>/dev/null || echo 0)
+        if [ "$src_time" -gt "$dst_time" ]; then
+          echo "  → Dotfiles version is NEWER (recommend: [o]verwrite or [b]ackup)"
+        elif [ "$dst_time" -gt "$src_time" ]; then
+          echo "  → Existing file is NEWER (recommend: [b]ackup to preserve changes)"
+        else
+          echo "  → Files have same timestamp"
+        fi
+        echo ""
+        echo "Options:"
+        echo "  [s] Skip      - Keep existing file, don't create symlink"
+        echo "  [S] Skip all  - Skip this and all remaining conflicts"
+        echo "  [o] Overwrite - Replace existing file with symlink"
+        echo "  [O] Overwrite all - Replace this and all remaining conflicts"
+        echo "  [b] Backup    - Move existing to .backup, create symlink"
+        echo "  [B] Backup all - Backup this and all remaining conflicts"
+        echo ""
+        user "What do you want to do? [s/S/o/O/b/B]"
+        read -n 1 action
+
+        case "$action" in
+          o )
+            overwrite=true;;
+          O )
+            overwrite_all=true;;
+          b )
+            backup=true;;
+          B )
+            backup_all=true;;
+          s )
+            skip=true;;
+          S )
+            skip_all=true;;
+          * )
+            ;;
+        esac
+
+    fi
+
+    overwrite=${overwrite:-$overwrite_all}
+    backup=${backup:-$backup_all}
+    skip=${skip:-$skip_all}
+
+    if [ "$overwrite" == "true" ]
+    then
+      rm -rf "$dst"
+      success "removed $dst"
+    fi
+
+    if [ "$backup" == "true" ]
+    then
+      if mv "$dst" "${dst}.backup" 2>/dev/null; then
+        success "moved $dst to ${dst}.backup"
+      else
+        fail "failed to backup $dst"
+        return 1
+      fi
+    fi
+
+    if [ "$skip" == "true" ]
+    then
+      success "skipped $src"
+    fi
+  fi
+
+  if [ "$skip" != "true" ]  # "false" or empty
+  then
+    if ln -s "$1" "$2" 2>/dev/null; then
+      success "linked $1 to $2"
+    else
+      fail "failed to link $1 to $2"
+      return 1  
+    fi
+  fi
+}
+
+link_dotfiles () {
+  info 'linking dotfiles'
+
+  local overwrite_all=false backup_all=false skip_all=false
+  local dry_run=${1:-false}
+
+  # Validate that we have .symlink files to process
+  local symlink_files=$(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*' | wc -l)
+  if [ "$symlink_files" -eq 0 ]; then
+    fail "No .symlink files found to process"
+  fi
+
+  info "Found $symlink_files .symlink files to process"
+
+  # Handle all .symlink files with smart target detection
+  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*')
+  do
+    # Validate source file exists and is readable
+    if [ ! -r "$src" ]; then
+      fail "Cannot read source file: $src"
+    fi
+
+    # Get the relative path from DOTFILES_ROOT
+    rel_path=${src#$DOTFILES_ROOT/}
+    
+    # Extract directory structure: topic/[config/]filename.ext.symlink
+    topic=$(echo "$rel_path" | cut -d'/' -f1)
+    filename=$(basename "${src%.*}")
+    
+    # Determine target based on path structure and topic
+    if [[ "$rel_path" == */config/* ]]; then
+      # Files in config/ subdirectories go to ~/.config/topic/
+      
+      # Create target directory if it doesn't exist
+      if [ "$dry_run" = "false" ]; then
+        mkdir -p "$target_dir"
+      else
+        info "[DRY RUN] Would create directory: $target_dir"
+      fi
+    elif [[ "$rel_path" == */config/* ]]; then
+      # Files in config/ subdirectories go to ~/.config/topic/
+      target_dir="$HOME/.config/$topic"
+      dst="$target_dir/$filename"
+      
+      # Create target directory if it doesn't exist
+      if [ "$dry_run" = "false" ]; then
+        mkdir -p "$target_dir"
+      else
+        info "[DRY RUN] Would create directory: $target_dir"
+      fi
+    else
+      # Files directly in topic/ go to ~/
+      dst="$HOME/.$filename"
+    fi
+    
+    if [ "$dry_run" = "true" ]; then
+      info "[DRY RUN] Would link: $src -> $dst"
+    else
+      link_file "$src" "$dst"
+    fi
+  done
+
+  if [ "$dry_run" = "true" ]; then
+    info "Dry run complete. Run without --dry-run to apply changes."
+  else
+    success "linking complete!"
+  fi
+}
+
+# Parse command line arguments
+DRY_RUN=false
+for arg in "$@"; do
+  case $arg in
+    --dry-run)
+      DRY_RUN=true
+      info "Running in dry-run mode - no changes will be made"
+      shift
+      ;;
+    --help|-h)
+      echo "Usage: $0 [--dry-run] [--help]"
+      echo ""
+      echo "  --dry-run    Show what would be linked without making changes"
+      echo "  --help       Show this help message"
+      exit 0
+      ;;
+  esac
 done
 
-# find the linkers and run them iteratively
-find . -name link.sh | while read linker ; do sh -c "${linker}" ; done
+link_dotfiles "$DRY_RUN"

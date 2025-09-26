@@ -10,6 +10,9 @@ if test ! $(which brew)
 then
   echo "  Installing Homebrew for you."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "  Homebrew installed successfully!"
+else
+  echo "  Homebrew already installed."
 fi
 
 exit 0

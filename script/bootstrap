@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# bootstrap installs things.
+# Bootstrap dotfiles - orchestrates initialization, installation, and linking
 
 cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd -P)
@@ -8,6 +8,7 @@ DOTFILES_ROOT=$(pwd -P)
 set -e
 
 echo ''
+echo '› Bootstrapping dotfiles...'
 
 info () {
   printf "\r  [ \033[00;34m..\033[0m ] $1\n"
@@ -49,108 +50,44 @@ setup_gitconfig () {
   fi
 }
 
+# Parse command line arguments
+DRY_RUN=false
+for arg in "$@"; do
+  case $arg in
+    --dry-run)
+      DRY_RUN=true
+      info "Running in dry-run mode - no changes will be made"
+      shift
+      ;;
+    --help|-h)
+      echo "Usage: $0 [--dry-run] [--help]"
+      echo ""
+      echo "  --dry-run    Show what would be done without making changes"
+      echo "  --help       Show this help message"
+      exit 0
+      ;;
+  esac
+done
 
-link_file () {
-  local src=$1 dst=$2
-
-  local overwrite= backup= skip=
-  local action=
-
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
-  then
-
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
-    then
-
-      local currentSrc="$(readlink $dst)"
-
-      if [ "$currentSrc" == "$src" ]
-      then
-
-        skip=true;
-
-      else
-
-        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
-
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          * )
-            ;;
-        esac
-
-      fi
-
-    fi
-
-    overwrite=${overwrite:-$overwrite_all}
-    backup=${backup:-$backup_all}
-    skip=${skip:-$skip_all}
-
-    if [ "$overwrite" == "true" ]
-    then
-      rm -rf "$dst"
-      success "removed $dst"
-    fi
-
-    if [ "$backup" == "true" ]
-    then
-      mv "$dst" "${dst}.backup"
-      success "moved $dst to ${dst}.backup"
-    fi
-
-    if [ "$skip" == "true" ]
-    then
-      success "skipped $src"
-    fi
-  fi
-
-  if [ "$skip" != "true" ]  # "false" or empty
-  then
-    ln -s "$1" "$2"
-    success "linked $1 to $2"
-  fi
-}
-
-install_dotfiles () {
-  info 'installing dotfiles'
-
-  local overwrite_all=false backup_all=false skip_all=false
-
-  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
-  do
-    dst="$HOME/.$(basename "${src%.*}")"
-    link_file "$src" "$dst"
-  done
-}
-
+# 1. Initialization - setup git configuration
+echo '› Phase 1: Initialization'
 setup_gitconfig
-install_dotfiles
 
-# If we're on a Mac, let's install and setup homebrew.
-if [ "$(uname -s)" == "Darwin" ]
-then
-  info "installing dependencies"
-  if source bin/dot | while read -r data; do info "$data"; done
-  then
-    success "dependencies installed"
-  else
-    fail "error installing dependencies"
-  fi
+# 2. Installation - install all tools and dependencies
+echo '› Phase 2: Installation'
+if [ "$DRY_RUN" = "true" ]; then
+  script/install --dry-run
+else
+  script/install
+fi
+
+# 3. Linking - create all symlinks
+echo '› Phase 3: Linking'
+if [ "$DRY_RUN" = "true" ]; then
+  script/link --dry-run
+else
+  script/link
 fi
 
 echo ''
-echo '  All installed!'
+success 'Bootstrap complete!'

@@ -17,18 +17,35 @@ HIST_STAMPS="yyyy-mm-dd"
 
 # Oh My ZSH Plugins
 plugins=(
-  git
-  docker
-  fzf
-  macos
-  brew
-  npm
-  node
-  python
-  terraform
-  kubectl
-  zsh-autosuggestions
-  zsh-syntax-highlighting
+    # Essential plugins
+    git
+    docker
+    docker-compose
+    
+    # Language and frameworks
+    node
+    npm
+    python
+    rust
+    golang
+    
+    # Tools and utilities
+    fzf
+    terraform
+    helm
+    
+    # Productivity
+    aliases          # Alias cheatsheet
+    history          # History shortcuts
+    colored-man-pages
+    extract          # Smart archive extraction
+    
+    # Enhanced shell features
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    
+    # Platform specific
+    macos
 )
 
 # ZSH_THEME is disabled - using Starship instead
@@ -82,14 +99,6 @@ done
 
 unset config_files
 
-# Better history
-# Credits to https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
 
 . "$HOME/.local/bin/env"
 
@@ -103,4 +112,4 @@ compinit
 eval "$(uvx --generate-shell-completion zsh)"
 
 
-[[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh
+# [[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh

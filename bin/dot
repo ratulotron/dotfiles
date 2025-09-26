@@ -2,65 +2,27 @@
 #
 # dot
 #
-# `dot` handles installation, updates, things like that. Run it periodically
-# to make sure you're on the latest and greatest.
+# Main dotfiles management interface. Provides comprehensive dotfiles operations
+# including installation, updates, maintenance, and troubleshooting.
 
 set -e
 
-parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
-dotfilesDirectory="$(cd "$( dirname "$parentDirectory" )" && pwd -P)"
+export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
 
-displayUsageAndExit() {
-	echo "dot -- dotfiles management"
-	echo ""
-	echo "Usage: dot [options]"
-	echo ""
-	echo "Options:"
-	echo "  -e, --edit    Open dotfiles directory for editing"
-	echo "  -h, --help    Show this help message and exit"
-	exit
-}
-
-while test $# -gt 0; do
-	case "$1" in
-		"-h"|"--help")
-			displayUsageAndExit
-			;;
-		"-e"|"--edit")
-			exec "$EDITOR" "$dotfilesDirectory"
-			exit
-			;;
-		*)
-			echo "Invalid option: $1"
-			displayUsageAndExit
-			;;
-	esac
-	shift
-done
-
-export DOTFILES=$HOME/.dotfiles
-
-# Update dotfiles themselves
-echo "› git pull"
-echo "$DOTFILES"
-git -C $DOTFILES pull
-
-# Set macOS defaults
-$DOTFILES/macos/set-defaults.sh
-
-# Set macOS hostname
-$DOTFILES/macos/set-hostname.sh
-
-# Install homebrew
-$DOTFILES/homebrew/install.sh 2>&1
-
-# Upgrade homebrew
-echo "› brew update"
-brew update
-
-echo "› brew upgrade"
-brew upgrade
-
-# Install software
-echo "› script/install"
-$DOTFILES/script/install
+# Handle legacy options and delegate to script/dotfiles
+case "${1:-}" in
+    "-e"|"--edit")
+        exec "$EDITOR" "$DOTFILES"
+        ;;
+    "-h"|"--help"|"help")
+        exec "$DOTFILES/script/dotfiles" help
+        ;;
+    "")
+        # Default behavior: run comprehensive update
+        exec "$DOTFILES/script/dotfiles" update
+        ;;
+    *)
+        # Pass all other commands to script/dotfiles
+        exec "$DOTFILES/script/dotfiles" "$@"
+        ;;
+esac
