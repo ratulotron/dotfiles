@@ -31,6 +31,7 @@ brew 'yt-dlp'
 brew 'fzf'
 brew 'gh'            # GitHub CLI
 brew 'git-delta'     # Better git diff
+brew 'hut'           # Source Hut CLI
 brew 'jq'
 brew 'just'          # Command runner (Makefile alternative)
 brew 'lazygit'       # Terminal UI for Git
@@ -41,7 +42,7 @@ brew 'spaceman-diff'
 brew 'uv'            # Fast Python package manager
 brew 'yq'            # YAML processor
 cask 'cursor'        # AI-powered code editor
-cask 'docker'
+cask 'docker-desktop'
 cask 'livebook'
 cask 'postman'
 cask 'popsql'
