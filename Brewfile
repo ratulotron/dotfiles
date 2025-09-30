@@ -111,9 +111,7 @@ cask 'chatgpt'
 
 # Productivity & Development Apps
 cask 'dash'                   # API documentation browser
-cask 'hypercal'               # Menu bar calendar
 cask 'klokki-slim'            # Time tracking
-cask 'mindnode'               # Mind mapping
 cask 'pastebot'               # Clipboard manager
 cask 'proxyman'               # Web debugging proxy
 cask 'sequel-ace'             # MySQL client
