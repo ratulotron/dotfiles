@@ -76,7 +76,7 @@ cask 'whatsapp'
 cask 'zoom'
 
 # Browsers
-cask 'zen-browser@twilight'
+cask 'zen@twilight'
 
 # Fonts
 cask 'font-blex-mono-nerd-font'
