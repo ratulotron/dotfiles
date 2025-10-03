@@ -2,7 +2,7 @@
 #
 # Atuin
 #
-# Installs Atuin for better search history
+# Installs Atuin for better search history and sets up themes
 
 if test ! $(which atuin)
 then
@@ -12,5 +12,7 @@ then
 else
   echo "  Atuin already installed."
 fi
+
+# Note: Config directory and themes are now handled automatically by script/link
 
 exit 0

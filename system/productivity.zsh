@@ -18,36 +18,6 @@ alias ....='cd ../../..'
 alias ~="cd ~"
 alias -- -="cd -"
 
-# eza aliases - modern ls replacement
-# Using more robust command detection
-if (( $+commands[eza] )); then
-  alias ls="eza --color=auto --icons"
-  alias ll="eza -l --color=auto --icons --group-directories-first"
-  alias la="eza -la --color=auto --icons --group-directories-first"
-  alias l="eza -l --color=auto --icons"
-  alias lt="eza --tree --level=3 --color=auto --icons"
-  alias lsd="eza -D --color=auto --icons"  # directories only
-  alias lsa="eza -la --color=auto --icons --group-directories-first"
-else
-  # Fallback to regular ls with colors if eza is not available
-  alias ls="ls -G"
-  alias ll="ls -alF"
-  alias la="ls -A"
-  alias l="ls -CF"
-fi
-
-# Git shortcuts (enhanced from holman's dotfiles)
-alias gl='git pull --prune'
-alias gp='git push origin HEAD'
-alias gac='git add -A && git commit -m'
-alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-
-# Docker shortcuts
-alias d='docker'
-alias dc='docker-compose'
-alias dps='docker ps'
-alias di='docker images'
-
 # System monitoring
 alias top='bottom'           # Use bottom instead of top
 alias ps='procs'            # Use procs instead of ps
@@ -60,9 +30,9 @@ alias myip='curl ifconfig.me'           # Get public IP
 alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 
 # File operations
-alias cat='bat'              # Better cat with syntax highlighting
-alias find='fd'              # Better find
-alias grep='rg'              # Better grep
+# alias cat='bat'              # Better cat with syntax highlighting
+# alias find='fd'              # Better find
+# alias grep='rg'              # Better grep
 
 # Global aliases for common pipes (from Oh My Zsh)
 alias -g H='| head'

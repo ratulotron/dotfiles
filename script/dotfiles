@@ -96,6 +96,17 @@ cmd_update() {
   "$DOTFILES/script/install"
   success "Software packages updated"
   
+  # Apply system configuration
+  info "Applying system configuration..."
+  if command -v podman >/dev/null 2>&1 && [ ! -f /etc/containers/nodocker ]; then
+    info "Configuring Podman to suppress Docker emulation message"
+    if sudo -n true 2>/dev/null || sudo mkdir -p /etc/containers && sudo touch /etc/containers/nodocker; then
+      success "Podman Docker emulation message suppressed"
+    else
+      info "Could not create /etc/containers/nodocker - you may see Podman messages"
+    fi
+  fi
+  
   # Update Oh My Zsh if available
   if command -v omz >/dev/null 2>&1; then
     info "Updating Oh My Zsh..."
@@ -131,22 +142,46 @@ cmd_backup() {
   mkdir -p "$backup_dir"
   
   # Backup existing dotfiles
-  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*'); do
-    rel_path=${src#$DOTFILES_ROOT/}
-    topic=$(echo "$rel_path" | cut -d'/' -f1)
+  
+  # Backup files and directories managed by new convention
+  
+  # Backup home directory .symlink files  
+  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*' -not -path '*/config/*'); do
     filename=$(basename "${src%.*}")
-    
-    if [[ "$rel_path" == */config/* ]]; then
-      original="$HOME/.config/$topic/$filename"
-    else
-      original="$HOME/.$filename"
-    fi
+    original="$HOME/.$filename"
     
     if [ -e "$original" ]; then
-      backup_path="$backup_dir/$(dirname "${original#$HOME/}")"
+      backup_path="$backup_dir"
       mkdir -p "$backup_path"
       cp -r "$original" "$backup_path/"
       info "Backed up $original"
+    fi
+  done
+  
+  # Backup config directories and files
+  for topic_dir in "$DOTFILES_ROOT"/*/; do
+    topic=$(basename "$topic_dir")
+    
+    # Check for .symlink.d directories
+    if [ -d "$topic_dir/config/$topic.symlink.d" ]; then
+      original="$HOME/.config/$topic"
+      if [ -e "$original" ]; then
+        backup_path="$backup_dir/.config"
+        mkdir -p "$backup_path"
+        cp -r "$original" "$backup_path/${topic}-backup"
+        info "Backed up $original directory"
+      fi
+    fi
+    
+    # Check for single .symlink config files
+    if [ -f "$topic_dir/config/$topic.symlink" ]; then
+      original="$HOME/.config/$topic.toml"
+      if [ -e "$original" ]; then
+        backup_path="$backup_dir/.config"
+        mkdir -p "$backup_path"
+        cp -r "$original" "$backup_path/"
+        info "Backed up $original"
+      fi
     fi
   done
   
@@ -159,22 +194,42 @@ cmd_clean() {
   local cleaned_links=0
   local cleaned_backups=0
   
-  # Clean broken symlinks
-  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*'); do
-    rel_path=${src#$DOTFILES_ROOT/}
-    topic=$(echo "$rel_path" | cut -d'/' -f1)
+  # Clean broken symlinks using new convention
+  
+  # Clean home directory .symlink files
+  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*' -not -path '*/config/*'); do
     filename=$(basename "${src%.*}")
-    
-    if [[ "$rel_path" == */config/* ]]; then
-      dst="$HOME/.config/$topic/$filename"
-    else
-      dst="$HOME/.$filename"
-    fi
+    dst="$HOME/.$filename"
     
     if [ -L "$dst" ] && [ ! -e "$dst" ]; then
       rm "$dst"
       info "Removed broken symlink: $dst"
-      ((cleaned_links++))
+      cleaned_links=$((cleaned_links + 1))
+    fi
+  done
+  
+  # Clean config directory and file symlinks
+  for topic_dir in "$DOTFILES_ROOT"/*/; do
+    topic=$(basename "$topic_dir")
+    
+    # Check .symlink.d directories
+    if [ -d "$topic_dir/config/$topic.symlink.d" ]; then
+      dst="$HOME/.config/$topic"
+      if [ -L "$dst" ] && [ ! -e "$dst" ]; then
+        rm "$dst"
+        info "Removed broken config directory symlink: $dst"
+        cleaned_links=$((cleaned_links + 1))
+      fi
+    fi
+    
+    # Check single .symlink config files
+    if [ -f "$topic_dir/config/$topic.symlink" ]; then
+      dst="$HOME/.config/$topic.toml"
+      if [ -L "$dst" ] && [ ! -e "$dst" ]; then
+        rm "$dst"
+        info "Removed broken config file symlink: $dst"
+        cleaned_links=$((cleaned_links + 1))
+      fi
     fi
   done
   
@@ -185,7 +240,7 @@ cmd_clean() {
   find "$DOTFILES_ROOT" -name "*.backup.*_*" -type f -mtime +30 2>/dev/null | while read -r backup_file; do
     rm "$backup_file"
     info "Removed old backup: $backup_file"
-    ((cleaned_backups++))
+    cleaned_backups=$((cleaned_backups + 1))
   done
   
   # Look for duplicate .backup files and offer to clean them
@@ -199,7 +254,7 @@ cmd_clean() {
       if [[ "$response" =~ ^[Yy]$ ]]; then
         rm "$backup_file"
         info "Removed backup: $backup_file"
-        ((cleaned_backups++))
+        cleaned_backups=$((cleaned_backups + 1))
       fi
     fi
   done
@@ -211,16 +266,10 @@ cmd_list() {
   info "Managed dotfiles:"
   echo ""
   
-  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*'); do
-    rel_path=${src#$DOTFILES_ROOT/}
-    topic=$(echo "$rel_path" | cut -d'/' -f1)
+  echo "Home directory files (.symlink):"
+  for src in $(find -H "$DOTFILES_ROOT" -name '*.symlink' -not -path '*.git*' -not -path '*/config/*'); do
     filename=$(basename "${src%.*}")
-    
-    if [[ "$rel_path" == */config/* ]]; then
-      dst="$HOME/.config/$topic/$filename"
-    else
-      dst="$HOME/.$filename"
-    fi
+    dst="$HOME/.$filename"
     
     if [ -L "$dst" ] && [ -e "$dst" ]; then
       printf "  \033[00;32m✓\033[0m %s\n" "${dst#$HOME/}"
@@ -228,6 +277,38 @@ cmd_list() {
       printf "  \033[0;31m✗\033[0m %s (broken)\n" "${dst#$HOME/}"
     else
       printf "  \033[0;33m-\033[0m %s (missing)\n" "${dst#$HOME/}"
+    fi
+  done
+  
+  echo ""
+  echo "Config directories (.symlink.d):"
+  for topic_dir in "$DOTFILES_ROOT"/*/; do
+    topic=$(basename "$topic_dir")
+    if [ -d "$topic_dir/config/$topic.symlink.d" ]; then
+      dst="$HOME/.config/$topic"
+      if [ -L "$dst" ] && [ -e "$dst" ]; then
+        printf "  \033[00;32m✓\033[0m .config/%s/ (directory)\n" "$topic"
+      elif [ -L "$dst" ]; then
+        printf "  \033[0;31m✗\033[0m .config/%s/ (broken)\n" "$topic"
+      else
+        printf "  \033[0;33m-\033[0m .config/%s/ (missing)\n" "$topic"
+      fi
+    fi
+  done
+  
+  echo ""
+  echo "Config files (.symlink):"
+  for topic_dir in "$DOTFILES_ROOT"/*/; do
+    topic=$(basename "$topic_dir")
+    if [ -f "$topic_dir/config/$topic.symlink" ]; then
+      dst="$HOME/.config/$topic.toml"
+      if [ -L "$dst" ] && [ -e "$dst" ]; then
+        printf "  \033[00;32m✓\033[0m .config/%s.toml\n" "$topic"
+      elif [ -L "$dst" ]; then
+        printf "  \033[0;31m✗\033[0m .config/%s.toml (broken)\n" "$topic"
+      else
+        printf "  \033[0;33m-\033[0m .config/%s.toml (missing)\n" "$topic"
+      fi
     fi
   done
 }

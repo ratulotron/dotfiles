@@ -1,0 +1,12 @@
+# Tokyo Night theme for Atuin
+# Based on the Tokyo Night color scheme
+# https://github.com/folke/tokyonight.nvim
+
+# Main colors
+AlertInfo = "sky_blue"          # #7aa2f7 - info blue
+AlertWarn = "yellow"           # #e0af68 - warning yellow  
+AlertError = "red"             # #f7768e - error red
+Annotation = "dark_gray"       # #565f89 - comment gray
+Base = "black"                 # #1a1b26 - background
+Guidance = "purple"            # #bb9af7 - purple accent
+Important = "cyan"             # #7dcfff - bright cyan

@@ -1,0 +1,135 @@
+# Mise Configuration for Development SDKs and Tools
+# This file will be symlinked to ~/.config/mise/config.toml
+# 
+# Usage:
+#   mise install              # Install all tools listed below
+#   mise install node python # Install specific tools only
+#   mise upgrade             # Upgrade all tools to latest versions
+#   mise ls                  # List installed tools and versions
+
+# General Settings
+[settings]
+experimental = true
+verbose = false
+status.missing_tools = "if_other_versions_installed"
+status.show_env = false
+status.show_tools = true
+
+# Legacy version file support
+legacy_version_file = true
+legacy_version_file_disable_tools = []
+
+# Plugin configuration  
+[plugins]
+# Automatically update plugins periodically
+# auto_update = "daily"  # Commented out - not all mise versions support this
+
+# Core Development Languages
+[tools]
+# === JavaScript/TypeScript Ecosystem ===
+# Node.js - JavaScript runtime
+node = "lts" # Always use the latest LTS version
+# Bun - Fast JavaScript runtime and package manager
+bun = "latest" # Modern JavaScript runtime
+# PNPM - Fast, disk space efficient package manager
+pnpm = "latest" # Efficient package manager
+# Yarn - Alternative package manager
+yarn = "latest" # Classic package manager
+
+# === Python Ecosystem ===
+# Python - Programming language
+python = "3.13" # Latest Python 3.13 (matches your Brewfile)
+# Ruff - Fast Python linter and formatter
+ruff = "latest" # Fast Python linter/formatter
+# UV - Fast Python package installer (from your Brewfile)
+uv = "latest" # Fast pip replacement
+
+# === Go Ecosystem ===
+# Go - Programming language
+go = "1.24" # Latest stable Go version
+
+# === Rust Ecosystem ===
+# Rust - Systems programming language
+rust = "latest" # Latest stable Rust
+# Cargo tools
+cargo-binstall = "latest" # Fast binary installer for Cargo
+
+# === Database Tools ===
+# Note: PostgreSQL and Redis are installed via Homebrew (see Brewfile)
+# Use brew services to manage them as system services
+
+# === Cloud Development Tools ===
+# AWS CLI - Amazon Web Services command line
+awscli = "latest" # AWS command line interface
+# Google Cloud CLI - Google Cloud Platform  
+gcloud = "latest" # Google Cloud command line interface
+# Note: Azure CLI has installation issues, install via brew if needed
+
+# === Container and DevOps Tools ===
+# Docker Compose - Multi-container Docker applications
+docker-compose = "latest" # Container orchestration
+# Kubectl - Kubernetes command line
+kubectl = "latest" # Kubernetes CLI
+# Helm - Kubernetes package manager
+helm = "latest" # Kubernetes package manager
+# Terraform - Infrastructure as code
+terraform = "latest" # Infrastructure automation
+# Terragrunt - Terraform wrapper
+terragrunt = "latest" # Terraform DRY tool
+
+# === Development Utilities ===
+# Just - Command runner (from your Brewfile)
+just = "latest" # Modern Make alternative
+# Protobuf - Protocol buffers compiler
+protoc = "latest" # Protocol buffer compiler
+# Buf - Modern protobuf toolchain
+buf = "latest" # Better protobuf experience
+
+# === Elixir Ecosystem ===
+# Note: Erlang has build dependencies (libncurses-dev, libicu-dev)
+# Install system packages first: sudo apt install libncurses-dev libicu-dev
+# Keeping your existing working versions:
+elixir = "latest" # Elixir programming language
+# erlang = "27"             # Erlang/OTP runtime (has build dependencies)
+rebar = "latest" # Erlang build tool
+
+# === Gleam ===
+gleam = "latest" # Gleam programming language
+
+# === Deno ===
+deno = "latest" # Modern JavaScript/TypeScript runtime
+
+# === AI/ML Tools ===
+# Ollama - Run large language models locally
+ollama = "latest" # Local LLM runner
+
+# === Additional Useful Tools ===
+# JQ - JSON processor (from your Brewfile)  
+jq = "latest" # JSON processor
+# YQ - YAML processor (from your Brewfile)
+yq = "latest" # YAML processor
+# Note: httpie is installed via Homebrew (see Brewfile)
+
+# Environment Variables
+[env]
+# Set default editor for tools that need it
+EDITOR = "hx" # Use Helix as default editor
+# Python settings
+PYTHON_CONFIGURE_OPTS = "--enable-optimizations --with-lto"
+PIP_REQUIRE_VIRTUALENV = "true"
+# Go settings  
+GOPROXY = "https://proxy.golang.org,direct"
+GOSUMDB = "sum.golang.org"
+# Node settings
+NODE_OPTIONS = "--max-old-space-size=8192"
+
+# Note: Tool aliases are not supported in this version of mise
+# You can create shell aliases in your zsh configuration instead
+
+# Common Commands:
+# mise install                    # Install all tools above
+# mise install node python       # Install specific tools
+# mise upgrade                    # Upgrade all tools
+# mise ls                         # List all tools and versions
+# mise use node@18                # Use specific version temporarily
+# mise outdated                   # Check for newer versions

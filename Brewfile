@@ -3,7 +3,7 @@ cask_args appdir: '/Applications'
 tap 'homebrew/bundle'
 
 # System Tools
-brew 'atuin'
+# brew 'atuin'
 brew 'bat'           # Better cat with syntax highlighting
 brew 'bottom'        # Modern htop alternative
 brew 'ctop'          # Top for containers

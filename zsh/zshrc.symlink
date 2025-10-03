@@ -30,22 +30,19 @@ plugins=(
     golang
     
     # Tools and utilities
-    fzf
     terraform
     helm
     
     # Productivity
-    aliases          # Alias cheatsheet
     history          # History shortcuts
     colored-man-pages
-    extract          # Smart archive extraction
     
     # Enhanced shell features
     zsh-autosuggestions
     zsh-syntax-highlighting
-    
-    # Platform specific
-    macos
+
+    # Custom plugins
+    eza
 )
 
 # ZSH_THEME is disabled - using Starship instead
@@ -74,6 +71,13 @@ fi
 # all of our zsh files
 typeset -U config_files
 config_files=($DOTFILES/**/*.zsh)
+
+# Initialize Homebrew early so all path files can use it
+if test "$(uname)" = "Darwin"; then
+    eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null
+elif test "$(expr substr $(uname -s) 1 5)" = "Linux"; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" 2>/dev/null
+fi
 
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}

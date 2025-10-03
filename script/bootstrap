@@ -81,8 +81,33 @@ else
   script/install
 fi
 
-# 3. Linking - create all symlinks
-echo '› Phase 3: Linking'
+# 3. System Configuration - setup system-specific configs
+echo '› Phase 3: System Configuration'
+if [ "$DRY_RUN" = "true" ]; then
+  info "[DRY RUN] Would configure system settings"
+else
+  # Suppress Podman Docker emulation message on Linux
+  if command -v podman >/dev/null 2>&1 && [ ! -f /etc/containers/nodocker ]; then
+    info "Configuring Podman to suppress Docker emulation message"
+    if sudo -n true 2>/dev/null; then
+      # Can sudo without password
+      sudo mkdir -p /etc/containers
+      sudo touch /etc/containers/nodocker
+      success "Podman Docker emulation message suppressed"
+    else
+      # Need to ask for password
+      info "Creating /etc/containers/nodocker to suppress Podman Docker emulation message"
+      if sudo mkdir -p /etc/containers && sudo touch /etc/containers/nodocker; then
+        success "Podman Docker emulation message suppressed"
+      else
+        info "Could not create /etc/containers/nodocker - you may see Podman messages"
+      fi
+    fi
+  fi
+fi
+
+# 4. Linking - create all symlinks
+echo '› Phase 4: Linking'
 if [ "$DRY_RUN" = "true" ]; then
   script/link --dry-run
 else
