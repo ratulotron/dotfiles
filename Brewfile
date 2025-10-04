@@ -42,7 +42,7 @@ brew 'spaceman-diff'
 brew 'uv'            # Fast Python package manager
 brew 'yq'            # YAML processor
 cask 'cursor'        # AI-powered code editor
-cask 'docker-desktop'
+# cask 'docker-desktop'
 cask 'livebook'
 cask 'postman'
 cask 'popsql'
@@ -101,7 +101,6 @@ brew 'sd'            # Intuitive find & replace (sed alternative)
 brew 'grc'           # Colorize command output
 brew 'httpie'        # Better curl for APIs
 brew 'entr'          # File watcher for automation
-brew 'zoxide'        # Smarter cd command
 brew 'tealdeer'      # Very fast tldr client
 brew 'zoxide'        # Smarter cd command
 
