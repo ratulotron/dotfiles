@@ -4,23 +4,23 @@ tap 'homebrew/bundle'
 
 # System Tools
 # brew 'atuin'
-brew 'bat'           # Better cat with syntax highlighting
-brew 'bottom'        # Modern htop alternative
+# brew 'bat'           # Better cat with syntax highlighting → Managed by Mise
+# brew 'bottom'        # Modern htop alternative → Managed by Mise
 brew 'ctop'          # Top for containers
 brew 'dive'          # Docker image analyzer
 brew 'duf'           # Better df (disk usage)
-brew 'dust'          # Better du (directory usage)
-brew 'eza'
-brew 'fd'            # Fast find alternative
+# brew 'dust'          # Better du (directory usage) → Managed by Mise
+# brew 'eza'           # → Managed by Mise
+# brew 'fd'            # Fast find alternative → Managed by Mise
 brew 'git'
-brew 'helix'
+# brew 'helix'         # → Managed by Mise
 brew 'htop'
-brew 'hyperfine'     # Command benchmarking
+# brew 'hyperfine'     # Command benchmarking → Managed by Mise
 brew 'mas'           # Mac App Store CLI
 brew 'mise'
 brew 'procs'         # Modern ps replacement
-brew 'ripgrep'       # Ultra-fast grep
-brew 'starship'
+# brew 'ripgrep'       # Ultra-fast grep → Managed by Mise
+# brew 'starship'      # → Managed by Mise
 brew 'tldr'          # Simplified man pages
 brew 'trash'         # Safe rm replacement
 brew 'tree'          # Directory visualization
@@ -29,18 +29,18 @@ brew 'yt-dlp'
 
 # Development
 brew 'fzf'
-brew 'gh'            # GitHub CLI
-brew 'git-delta'     # Better git diff
+# brew 'gh'            # GitHub CLI → Managed by Mise
+# brew 'git-delta'     # Better git diff → Managed by Mise
 brew 'hut'           # Source Hut CLI
-brew 'jq'
-brew 'just'          # Command runner (Makefile alternative)
-brew 'lazygit'       # Terminal UI for Git
-brew 'node'          # JavaScript runtime
+# brew 'jq'            # → Managed by Mise
+# brew 'just'          # Command runner (Makefile alternative) → Managed by Mise
+# brew 'lazygit'       # Terminal UI for Git → Managed by Mise
+# brew 'node'          # JavaScript runtime → Managed by Mise
 brew 'postgresql@14'
-brew 'python@3.13'   # Latest Python
+# brew 'python@3.13'   # Latest Python → Managed by Mise
 brew 'spaceman-diff'
-brew 'uv'            # Fast Python package manager
-brew 'yq'            # YAML processor
+# brew 'uv'            # Fast Python package manager → Managed by Mise
+# brew 'yq'            # YAML processor → Managed by Mise
 cask 'cursor'        # AI-powered code editor
 # cask 'docker-desktop'
 cask 'livebook'
@@ -103,7 +103,7 @@ brew 'grc'           # Colorize command output
 brew 'httpie'        # Better curl for APIs
 brew 'entr'          # File watcher for automation
 brew 'tealdeer'      # Very fast tldr client
-brew 'zoxide'        # Smarter cd command
+# brew 'zoxide'        # Smarter cd command → Managed by Mise
 
 # AI Tools
 cask 'claude'

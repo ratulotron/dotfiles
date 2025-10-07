@@ -117,3 +117,7 @@ eval "$(uvx --generate-shell-completion zsh)"
 
 
 # [[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"

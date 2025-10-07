@@ -1,2 +1,2 @@
-# source $HOME/.atuin/bin/env
+source $HOME/.atuin/bin/env
 eval "$(atuin init zsh)"

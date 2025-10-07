@@ -75,6 +75,16 @@ dot backup                # Create backup
 - **Shell enhancements**: Oh My Zsh, Atuin history sync, 50+ aliases, smart completions
 - **Tokyo Night theming**: Consistent colors across all tools
 
+## tool installation priority
+
+Tools are installed in this order of preference:
+
+1. **[Mise](https://mise.jdx.dev/)** - Primary for development tools with version management
+2. **[Homebrew](https://brew.sh/)** - For system utilities and GUI applications
+3. **Curl install scripts** - Last resort for tools not available elsewhere
+
+Development tools like `node`, `python`, `rust`, `go`, and CLI utilities like `bat`, `jq`, `gh` are managed by Mise for better version control and project isolation.
+
 ## troubleshooting
 
 ```sh

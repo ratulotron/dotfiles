@@ -22,7 +22,7 @@ legacy_version_file_disable_tools = []
 # Plugin configuration  
 [plugins]
 # Automatically update plugins periodically
-# auto_update = "daily"  # Commented out - not all mise versions support this
+auto_update = "daily" # Commented out - not all mise versions support this
 
 # Core Development Languages
 [tools]
@@ -40,9 +40,11 @@ yarn = "latest" # Classic package manager
 # Python - Programming language
 python = "3.13" # Latest Python 3.13 (matches your Brewfile)
 # Ruff - Fast Python linter and formatter
-ruff = "latest" # Fast Python linter/formatter
-# UV - Fast Python package installer (from your Brewfile)
+# ruff = "latest" # Fast Python linter/formatter
+# UV - Fast Python package installer (migrated from Brewfile)
 uv = "latest" # Fast pip replacement
+# Ruff - Fast Python linter and formatter (migrated from Brewfile)  
+ruff = "latest" # Fast Python linter/formatter
 
 # === Go Ecosystem ===
 # Go - Programming language
@@ -54,36 +56,58 @@ rust = "latest" # Latest stable Rust
 # Cargo tools
 cargo-binstall = "latest" # Fast binary installer for Cargo
 
+# === CLI Tools (migrated from Brewfile) ===
+# Core CLI utilities
+bat = "latest"       # Better cat with syntax highlighting
+fd = "latest"        # Fast find alternative  
+ripgrep = "latest"   # Ultra-fast grep
+eza = "latest"       # Modern ls replacement
+bottom = "latest"    # Modern htop alternative
+dust = "latest"      # Better du (directory usage)
+hyperfine = "latest" # Command benchmarking
+zoxide = "latest"    # Smarter cd command
+starship = "latest"  # Shell prompt
+helix = "latest"     # Text editor
+lazygit = "latest"   # Terminal UI for Git
+
 # === Database Tools ===
 # Note: PostgreSQL and Redis are installed via Homebrew (see Brewfile)
 # Use brew services to manage them as system services
 
 # === Cloud Development Tools ===
 # AWS CLI - Amazon Web Services command line
-awscli = "latest" # AWS command line interface
+# awscli = "latest" # AWS command line interface
 # Google Cloud CLI - Google Cloud Platform  
-gcloud = "latest" # Google Cloud command line interface
+# gcloud = "latest" # Google Cloud command line interface
 # Note: Azure CLI has installation issues, install via brew if needed
 
 # === Container and DevOps Tools ===
 # Docker Compose - Multi-container Docker applications
-docker-compose = "latest" # Container orchestration
+# docker-compose = "latest" # Container orchestration
 # Kubectl - Kubernetes command line
-kubectl = "latest" # Kubernetes CLI
+# kubectl = "latest" # Kubernetes CLI
 # Helm - Kubernetes package manager
-helm = "latest" # Kubernetes package manager
+# helm = "latest" # Kubernetes package manager
 # Terraform - Infrastructure as code
 terraform = "latest" # Infrastructure automation
 # Terragrunt - Terraform wrapper
-terragrunt = "latest" # Terraform DRY tool
+# terragrunt = "latest" # Terraform DRY tool
 
 # === Development Utilities ===
 # Just - Command runner (from your Brewfile)
 just = "latest" # Modern Make alternative
+# JQ - JSON processor (migrated from Brewfile)  
+jq = "latest" # JSON processor
+# YQ - YAML processor (migrated from Brewfile)
+yq = "latest" # YAML processor
+# GitHub CLI (migrated from Brewfile)
+gh = "latest" # GitHub command line interface
+# Git Delta - Better git diff (migrated from Brewfile)
+delta = "latest" # Syntax-highlighting pager for git
 # Protobuf - Protocol buffers compiler
-protoc = "latest" # Protocol buffer compiler
+# protoc = "latest" # Protocol buffer compiler
 # Buf - Modern protobuf toolchain
-buf = "latest" # Better protobuf experience
+# buf = "latest" # Better protobuf experience
 
 # === Elixir Ecosystem ===
 # Note: Erlang has build dependencies (libncurses-dev, libicu-dev)
@@ -105,9 +129,9 @@ ollama = "latest" # Local LLM runner
 
 # === Additional Useful Tools ===
 # JQ - JSON processor (from your Brewfile)  
-jq = "latest" # JSON processor
+# jq = "latest" # JSON processor
 # YQ - YAML processor (from your Brewfile)
-yq = "latest" # YAML processor
+# yq = "latest" # YAML processor
 # Note: httpie is installed via Homebrew (see Brewfile)
 
 # Environment Variables
