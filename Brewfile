@@ -76,6 +76,7 @@ cask 'whatsapp'
 cask 'zoom'
 
 # Browsers
+cask 'google-chrome'
 cask 'zen@twilight'
 
 # Fonts
