@@ -17,8 +17,7 @@ fi
 # Install ZSH completion for ruff
 if [ -d "$HOME/.oh-my-zsh" ]; then
     echo "  Installing ruff ZSH completion..."
-    mkdir -p "$HOME/.oh-my-zsh/completions"
-    curl -fsSL https://raw.githubusercontent.com/eza-community/eza/refs/heads/main/completions/zsh/_eza > "$HOME/.oh-my-zsh/plugins/eza"
+    mkdir -p "$HOME/.oh-my-zsh/plugins/ruff"
     ruff generate-shell-completion zsh > "$HOME/.oh-my-zsh/plugins/ruff/ruff.plugin.zsh"
     echo "  ruff ZSH completion installed!"
 else
