@@ -7,7 +7,7 @@ ifneq ($(shell uname),Darwin)
 	PACKAGES := $(filter-out macos/ , $(PACKAGES))
 endif
 
-.PHONY: all install update stow clean
+.PHONY: all install update stow clean unlink-legacy
 
 all: stow
 
@@ -15,7 +15,7 @@ install:
 	@echo "› Installing dependencies..."
 	@find . -name install.sh -exec {} \;
 
-stow:
+stow: unlink-legacy
 	@echo "› Stowing packages..."
 	@stow --verbose --target=$$HOME --restow --ignore='^[^.]' $(PACKAGES)
 
@@ -28,3 +28,11 @@ update:
 clean:
 	@echo "› Removing symlinks..."
 	@stow --verbose --target=$$HOME --delete $(PACKAGES)
+
+unlink-legacy:
+	@echo "› Removing legacy symlinks..."
+	@find $$HOME -maxdepth 4 -type l \
+		\( -lname "$$HOME/.dotfiles/*/*.symlink" \
+		   -o -lname "$$HOME/.dotfiles/*/*.symlink.*" \
+		   -o -lname "$$HOME/.dotfiles/*/*.symlink.d" \) \
+		-print -delete 2>/dev/null || true
