@@ -16,17 +16,6 @@ ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_DIRTY=""
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-# Docker plugin configuration
-DOCKER_COMPLETION_PATH="$HOME/.docker/completions"
-
-# Kubectl plugin configuration
-KUBECTL_COMPLETION_PATH="$HOME/.kubectl/completions"
-
-# FZF configuration for Oh My ZSH
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-
 # Oh My ZSH custom functions
 function take() {
     mkdir -p $1 && cd $1

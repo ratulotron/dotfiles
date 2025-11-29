@@ -3,7 +3,10 @@ clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
 font-family = BlexMono Nerd Font Mono
-font-size = 14
+font-size = 12
+
+# Launch Zellij automatically (attach to 'main' or create it)
+command = zsh -ic "zellij attach main -c"
 
 # Quick terminal for macOS
 quick-terminal-position = top

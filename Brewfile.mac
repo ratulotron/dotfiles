@@ -1,0 +1,58 @@
+# Homebrew Bundle - macOS Casks
+# Run separately: brew bundle --file=Brewfile.mac
+
+cask_args appdir: '/Applications'
+
+# Terminals
+cask 'ghostty'
+cask 'iterm2'
+
+# Editors & IDEs
+cask 'cursor'
+cask 'visual-studio-code'
+
+# Development
+cask 'livebook'
+cask 'postman'
+cask 'popsql'
+cask 'dash'           # API documentation browser
+cask 'proxyman'       # Web debugging proxy
+cask 'sequel-ace'     # MySQL client
+cask 'tableflip'      # Markdown table editor
+
+# Utilities
+cask 'raycast'
+cask 'rectangle'
+cask 'cleanmymac'
+cask 'bitwarden'
+cask 'pastebot'       # Clipboard manager
+cask 'android-platform-tools'
+
+# AI Tools
+cask 'claude'
+cask 'chatgpt'
+
+# Communication
+cask 'discord'
+cask 'messenger'
+cask 'slack'
+cask 'whatsapp'
+cask 'zoom'
+
+# Productivity
+cask 'notion'
+cask 'notion-calendar'
+cask 'figma'
+
+# Media & Entertainment
+cask 'spotify'
+cask 'vlc'
+cask 'qbittorrent'
+cask 'syncplay'
+
+# Browsers
+cask 'google-chrome'
+cask 'zen@twilight'
+
+# Fonts
+cask 'font-blex-mono-nerd-font'

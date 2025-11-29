@@ -1,0 +1,78 @@
+// Zellij Configuration
+// Tokyo Night themed with sensible defaults
+
+keybinds clear-defaults=false {
+    // Keep default keybinds, add custom ones here
+    shared_except "locked" {
+        // Quick actions
+        bind "Alt h" { MoveFocusOrTab "Left"; }
+        bind "Alt l" { MoveFocusOrTab "Right"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+        bind "Alt n" { NewPane; }
+        bind "Alt d" { NewPane "Down"; }
+        bind "Alt r" { NewPane "Right"; }
+        bind "Alt x" { CloseFocus; }
+        bind "Alt f" { ToggleFloatingPanes; }
+        bind "Alt z" { ToggleFocusFullscreen; }
+    }
+    shared_except "normal" "locked" {
+        bind "Enter" "Esc" { SwitchToMode "Normal"; }
+    }
+}
+
+// Plugins
+plugins {
+    tab-bar { path "tab-bar"; }
+    status-bar { path "status-bar"; }
+    strider { path "strider"; }
+    compact-bar { path "compact-bar"; }
+    session-manager { path "session-manager"; }
+}
+
+// Theme: Tokyo Night
+themes {
+    tokyo-night {
+        fg "#a9b1d6"
+        bg "#1a1b26"
+        black "#32344a"
+        red "#f7768e"
+        green "#9ece6a"
+        yellow "#e0af68"
+        blue "#7aa2f7"
+        magenta "#ad8ee6"
+        cyan "#449dab"
+        white "#787c99"
+        orange "#ff9e64"
+    }
+}
+
+theme "tokyo-night"
+
+// UI Options
+ui {
+    pane_frames {
+        rounded_corners true
+        hide_session_name false
+    }
+}
+
+// General options
+default_shell "zsh"
+default_layout "default"
+default_mode "normal"
+mouse_mode true
+scroll_buffer_size 10000
+copy_on_select true
+scrollback_editor "/usr/bin/hx"
+
+// Simplified UI - hide hints after you learn the keybinds
+// Uncomment when comfortable:
+// simplified_ui true
+
+// Session options
+session_serialization true
+pane_viewport_serialization true
+
+// Mirror terminal for pair programming (disabled by default)
+// mirror_session true

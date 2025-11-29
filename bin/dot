@@ -18,6 +18,9 @@ case "${1:-}" in
     "stow")
         make -C "$DOTFILES" stow
         ;;
+    "check")
+        make -C "$DOTFILES" check
+        ;;
     "clean")
         make -C "$DOTFILES" clean
         ;;
@@ -31,6 +34,7 @@ case "${1:-}" in
         echo "  install   Install dependencies"
         echo "  update    Update dotfiles (pull + install + stow)"
         echo "  stow      Stow packages (link files)"
+        echo "  check     Dry-run stow and detect legacy links"
         echo "  clean     Remove symlinks"
         echo "  edit      Open dotfiles in editor"
         ;;

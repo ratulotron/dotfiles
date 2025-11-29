@@ -110,23 +110,26 @@ done
 unset config_files
 
 
-. "$HOME/.local/bin/env"
+if [ -f "$HOME/.local/bin/env" ]; then
+  . "$HOME/.local/bin/env"
+fi
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/ratul/.docker/completions $fpath)
+if command -v terraform >/dev/null 2>&1; then
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C "$(command -v terraform)" terraform
+fi
+
+if [ -d "$HOME/.docker/completions" ]; then
+  fpath=("$HOME/.docker/completions" $fpath)
+fi
+
 autoload -Uz compinit
 compinit
-# End of Docker CLI completions
-eval "$(uvx --generate-shell-completion zsh)"
 
+if command -v uvx >/dev/null 2>&1; then
+  eval "$(uvx --generate-shell-completion zsh)"
+fi
 
-source /Users/ratul/.config/broot/launcher/bash/br
-
-# Added by Antigravity
-export PATH="/Users/ratul/.antigravity/antigravity/bin:$PATH"
-
-. "$HOME/.atuin/bin/env"
-
-eval "$(atuin init zsh)"
+if [ -d "$HOME/.antigravity/antigravity/bin" ]; then
+  export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+fi

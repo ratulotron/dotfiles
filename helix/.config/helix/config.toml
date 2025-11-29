@@ -2,22 +2,16 @@ theme = "tokyonight"
 
 [editor]
 auto-save = true
-# Show currently open buffers, only when more than one exists.
-# bufferline = "multiple"
 bufferline = "always"
-# Highlight all lines with a cursor
 cursorline = true
-# Minimum severity to show a diagnostic after the end of a line
 end-of-line-diagnostics = "hint"
-# Use relative line numbers
 line-number = "relative"
 preview-completion-insert = true
-# Show a ruler at column 120
 rulers = [120]
-# Shell
 shell = ["zsh", "-cu"]
-# Force the theme to show colors
 true-color = true
+idle-timeout = 50
+completion-timeout = 5
 
 [editor.cursor-shape]
 insert = "bar"
@@ -28,15 +22,17 @@ select = "underline"
 hidden = false
 
 [editor.indent-guides]
-character = "┊" # Some characters that work well: "▏", "┆", "┊", "⸽"
+character = "┊"
 render = true
+skip-levels = 1
 
 [editor.inline-diagnostics]
-cursor-line = "error" # Show inline diagnostics when the cursor is on the line
-other-lines = "disable" # Don't expand diagnostics unless the cursor is on the line
+cursor-line = "error"
+other-lines = "disable"
 
 [editor.lsp]
 display-inlay-hints = true
+display-messages = true
 
 [editor.statusline]
 mode.normal = "NORMAL"
@@ -44,13 +40,54 @@ mode.insert = "INSERT"
 mode.select = "SELECT"
 center = ["version-control"]
 left = ["mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator"]
+right = ["diagnostics", "selections", "register", "position", "file-encoding"]
 
 [editor.whitespace.render]
 tab = "all"
 tabpad = "all"
 newline = "none"
 
-# Modified keybinding in Normal mode
+[editor.soft-wrap]
+enable = false
+wrap-at-text-width = true
+
+# Keybindings
 [keys.normal]
-"C-s" = ":w" # Ctrl-s saves the current file
-"ret" = ["open_below", "normal_mode"] # Enter adds line above
+"C-s" = ":w"
+"ret" = ["open_below", "normal_mode"]
+"C-h" = "jump_view_left"
+"C-j" = "jump_view_down"
+"C-k" = "jump_view_up"
+"C-l" = "jump_view_right"
+
+# Space-leader mappings (like Vim)
+[keys.normal.space]
+"f" = "file_picker"
+"F" = "file_picker_in_current_directory"
+"b" = "buffer_picker"
+"s" = "symbol_picker"
+"S" = "workspace_symbol_picker"
+"d" = "diagnostics_picker"
+"D" = "workspace_diagnostics_picker"
+"a" = "code_action"
+"r" = "rename_symbol"
+"h" = "hover"
+"/" = "global_search"
+"?" = "command_palette"
+"w" = ":w"
+"q" = ":q"
+"x" = ":bc"
+"e" = ":sh br"
+"g" = ":sh lazygit"
+"t" = ":sh zellij run --floating -- zsh"
+
+# Quick navigation
+[keys.normal.g]
+"d" = "goto_definition"
+"D" = "goto_declaration"
+"r" = "goto_reference"
+"i" = "goto_implementation"
+"t" = "goto_type_definition"
+
+[keys.insert]
+"C-s" = ":w"

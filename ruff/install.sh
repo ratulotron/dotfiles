@@ -14,12 +14,14 @@ else
 fi
 
 
-# Install ZSH completion for ruff
-if [ -d "$HOME/.oh-my-zsh" ]; then
+# Install ZSH completion for ruff into the dotfiles repo (stowed to ~/.config/zsh/completions)
+DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
+COMPLETIONS_DIR="$DOTFILES/ruff/.config/zsh/completions"
+if command -v ruff >/dev/null 2>&1; then
     echo "  Installing ruff ZSH completion..."
-    mkdir -p "$HOME/.oh-my-zsh/completions"
-    ruff generate-shell-completion zsh > "$HOME/.oh-my-zsh/completions/_ruff"
-    echo "  ruff ZSH completion installed!"
+    mkdir -p "$COMPLETIONS_DIR"
+    ruff generate-shell-completion zsh > "$COMPLETIONS_DIR/_ruff"
+    echo "  ruff ZSH completion installed to $COMPLETIONS_DIR/_ruff"
 else
-    echo "  Oh My ZSH not found, skipping ruff ZSH completion installation."
+    echo "  Ruff not found, skipping ZSH completion generation."
 fi
