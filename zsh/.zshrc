@@ -89,6 +89,16 @@ do
   source $file
 done
 
+# Normalize Home/End keys across terminals
+if [[ -n ${terminfo[khome]} ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line
+  bindkey -M vicmd "${terminfo[khome]}" beginning-of-line 2>/dev/null
+fi
+if [[ -n ${terminfo[kend]} ]]; then
+  bindkey "${terminfo[kend]}" end-of-line
+  bindkey -M vicmd "${terminfo[kend]}" end-of-line 2>/dev/null
+fi
+
 # initialize autocomplete here, otherwise functions won't be loaded
 
 # load every completion after autocomplete loads
