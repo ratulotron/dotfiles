@@ -119,3 +119,4 @@ cask 'tableflip'              # Markdown table editor
 
 # Work
 cask 'figma'
+brew "stow"

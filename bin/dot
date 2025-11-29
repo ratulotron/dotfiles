@@ -2,27 +2,45 @@
 #
 # dot
 #
-# Main dotfiles management interface. Provides comprehensive dotfiles operations
-# including installation, updates, maintenance, and troubleshooting.
+# Main dotfiles management interface. Wraps the Makefile.
 
 set -e
 
 export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
 
-# Handle legacy options and delegate to script/dotfiles
 case "${1:-}" in
-    "-e"|"--edit")
+    "install")
+        make -C "$DOTFILES" install
+        ;;
+    "update")
+        make -C "$DOTFILES" update
+        ;;
+    "stow")
+        make -C "$DOTFILES" stow
+        ;;
+    "clean")
+        make -C "$DOTFILES" clean
+        ;;
+    "-e"|"--edit"|"edit")
         exec "$EDITOR" "$DOTFILES"
         ;;
     "-h"|"--help"|"help")
-        exec "$DOTFILES/script/dotfiles" help
+        echo "Usage: dot [command]"
+        echo ""
+        echo "Commands:"
+        echo "  install   Install dependencies"
+        echo "  update    Update dotfiles (pull + install + stow)"
+        echo "  stow      Stow packages (link files)"
+        echo "  clean     Remove symlinks"
+        echo "  edit      Open dotfiles in editor"
         ;;
     "")
         # Default behavior: run comprehensive update
-        exec "$DOTFILES/script/dotfiles" update
+        make -C "$DOTFILES" update
         ;;
     *)
-        # Pass all other commands to script/dotfiles
-        exec "$DOTFILES/script/dotfiles" "$@"
+        echo "Unknown command: $1"
+        echo "Run 'dot help' for usage."
+        exit 1
         ;;
 esac

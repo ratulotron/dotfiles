@@ -17,11 +17,9 @@ fi
 # Install ZSH completion for ruff
 if [ -d "$HOME/.oh-my-zsh" ]; then
     echo "  Installing ruff ZSH completion..."
-    mkdir -p "$HOME/.oh-my-zsh/plugins/ruff"
-    ruff generate-shell-completion zsh > "$HOME/.oh-my-zsh/plugins/ruff/ruff.plugin.zsh"
+    mkdir -p "$HOME/.oh-my-zsh/completions"
+    ruff generate-shell-completion zsh > "$HOME/.oh-my-zsh/completions/_ruff"
     echo "  ruff ZSH completion installed!"
 else
     echo "  Oh My ZSH not found, skipping ruff ZSH completion installation."
 fi
-
-

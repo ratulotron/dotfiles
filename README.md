@@ -102,3 +102,28 @@ Common fixes:
 ## license
 
 MIT License. Fork it, use it, improve it.
+## install
+
+```sh
+git clone https://github.com/minhazratul/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+make install
+make stow
+```
+
+## update
+
+```sh
+dot update
+# or
+cd ~/.dotfiles && make update
+```
+
+## structure
+
+- **bin/**: global scripts (including `dot`)
+- **topic/**: topical configuration (e.g. `git`, `zsh`)
+    - **.config/**: config files (stowed to `~/.config`)
+    - **.file**: dotfiles (stowed to `~/.file`)
+    - **install.sh**: installation script
+- **Makefile**: management commands

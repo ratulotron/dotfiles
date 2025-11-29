@@ -57,8 +57,6 @@ export DOTFILES=~/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
 
-autoload -Uz compinit
-compinit
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -92,8 +90,6 @@ do
 done
 
 # initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
 
 # load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}
@@ -116,7 +112,10 @@ compinit
 eval "$(uvx --generate-shell-completion zsh)"
 
 
-# [[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh
+source /Users/ratul/.config/broot/launcher/bash/br
+
+# Added by Antigravity
+export PATH="/Users/ratul/.antigravity/antigravity/bin:$PATH"
 
 . "$HOME/.atuin/bin/env"
 

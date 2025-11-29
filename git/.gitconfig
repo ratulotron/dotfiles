@@ -53,6 +53,7 @@
 [core]
         excludesfile = ~/.gitignore
         editor = hx
+	pager = delta
 [apply]
         whitespace = nowarn
 [mergetool]
@@ -74,3 +75,11 @@
 	name = Ratul Minhaz
 [pull]
 	rebase = true
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+[diff]
+	algorithm = histogram
+[interactive]
+	diffFilter = delta --color-only

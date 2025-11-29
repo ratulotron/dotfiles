@@ -15,4 +15,10 @@ else
   echo "  Homebrew already installed."
 fi
 
+# Install Homebrew Bundle
+if [ -f "$HOME/.dotfiles/Brewfile" ]; then
+  echo "  Installing Homebrew Bundle..."
+  brew bundle --file="$HOME/.dotfiles/Brewfile"
+fi
+
 exit 0
