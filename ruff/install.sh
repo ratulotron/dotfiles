@@ -2,17 +2,21 @@
 #
 # Ruff
 #
-# Installs Ruff linter and sets up configuration and shell completions
+# Installs Ruff linter via uv and sets up shell completions
+# Prerequisites: uv (managed by mise)
 
-if test ! $(which ruff)
-then
-  echo "  Installing Ruff for you."
-  curl -LsSf https://astral.sh/ruff/install.sh | sh
+if ! command -v uv >/dev/null 2>&1; then
+  echo "  ⚠ uv not found. Install via mise first."
+  exit 1
+fi
+
+if ! command -v ruff >/dev/null 2>&1; then
+  echo "  Installing Ruff via uv..."
+  uv tool install ruff
   echo "  Ruff installed successfully!"
 else
   echo "  Ruff already installed."
 fi
-
 
 # Install ZSH completion for ruff into the dotfiles repo (stowed to ~/.config/zsh/completions)
 DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
