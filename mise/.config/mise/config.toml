@@ -1,7 +1,9 @@
 # Mise Configuration - Language Runtimes & Ecosystem Tools
 #
-# CLI utilities (bat, fd, ripgrep, etc.) are managed by Homebrew.
-# Mise focuses on language runtimes where version-per-project matters.
+# Philosophy:
+#   - Runtimes & Package Managers: Managed by mise (per-project versions)
+#   - CLI Tools: Managed by Homebrew (system-wide)
+#   - Language-specific dev tools: Via language package managers (uv, npm, etc.)
 #
 # Usage:
 #   mise install              # Install all tools below
@@ -15,31 +17,12 @@ legacy_version_file = true
 
 [tools]
 # === JavaScript/TypeScript ===
-node = "lts"
-bun = "latest"
-pnpm = "latest"
-yarn = "latest"
-deno = "latest"
+node = "lts"    # Core runtime for static site
+pnpm = "latest" # Fast package manager
 
 # === Python ===
-python = "3.13"
-uv = "latest"   # Fast pip replacement
-ruff = "latest" # Fast linter/formatter
-
-# === Go ===
-go = "1.24"
-
-# === Rust ===
-rust = "latest"
-cargo-binstall = "latest"
-
-# === Elixir/Erlang ===
-elixir = "latest"
-rebar = "latest"
-# erlang = "27"     # Uncomment if needed; requires libncurses-dev, libicu-dev
-
-# === Gleam ===
-gleam = "latest"
+python = "3.13" # Python runtime
+uv = "latest"   # Fast pip/venv replacement & tool installer
 
 # === DevOps ===
 terraform = "latest"
@@ -47,8 +30,24 @@ terraform = "latest"
 # === AI/ML ===
 ollama = "latest"
 
+# === Commented Out (uncomment when needed) ===
+# JavaScript alternatives
+# bun = "latest"           # Alternative JS runtime
+# yarn = "latest"          # Alternative package manager  
+# deno = "latest"          # Alternative JS/TS runtime
+
+# Other languages
+# go = "1.24"              # Go language
+# rust = "latest"          # Rust language + cargo
+# cargo-binstall = "latest" # Fast binary installer for Rust
+# elixir = "latest"        # Elixir language
+# rebar = "latest"         # Elixir build tool
+# erlang = "27"            # Erlang VM (requires libncurses-dev, libicu-dev)
+# gleam = "latest"         # Gleam language
+
 [env]
-EDITOR = "hx"
+# Python environment settings
 PIP_REQUIRE_VIRTUALENV = "true"
-GOPROXY = "https://proxy.golang.org,direct"
+
+# Node.js memory limit
 NODE_OPTIONS = "--max-old-space-size=8192"
