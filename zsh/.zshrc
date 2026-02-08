@@ -1,61 +1,16 @@
 # OH MY ZSH settings
 export ZSH="$HOME/.oh-my-zsh"
 
-# Oh My ZSH Configuration
-CASE_SENSITIVE="false"
-HYPHEN_INSENSITIVE="true"
-DISABLE_AUTO_UPDATE="false"
-DISABLE_UPDATE_PROMPT="false"
-export UPDATE_ZSH_DAYS=13
-DISABLE_MAGIC_FUNCTIONS="false"
-DISABLE_LS_COLORS="false"
-DISABLE_AUTO_TITLE="false"
-ENABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
-DISABLE_UNTRACKED_FILES_DIRTY="false"
-HIST_STAMPS="yyyy-mm-dd"
+# Dotfiles root (must be set before globbing for topic files)
+export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
 
-# Oh My ZSH Plugins
-plugins=(
-    # Essential plugins
-    git
-    docker
-    docker-compose
-    
-    # Language and frameworks
-    node
-    npm
-    python
-    rust
-    golang
-    
-    # Tools and utilities
-    terraform
-    helm
-    
-    # Productivity
-    history          # History shortcuts
-    colored-man-pages
-    
-    # Enhanced shell features
-    zsh-autosuggestions
-    zsh-syntax-highlighting
+# Load OMZ configuration from topic file (must be before sourcing OMZ)
+if [[ -f "$HOME/.dotfiles/zsh/omz-config.zsh" ]]; then
+  source "$HOME/.dotfiles/zsh/omz-config.zsh"
+fi
 
-    # Custom plugins
-    eza
-)
-
-# ZSH_THEME is disabled - using Starship instead
-# ZSH_THEME="robbyrussell"
-
+# Load Oh My ZSH
 source $ZSH/oh-my-zsh.sh
-
-# Custom
-# shortcut to this dotfiles path is $DOTFILES
-export DOTFILES=~/.dotfiles
-
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/Code
 
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
@@ -109,27 +64,22 @@ done
 
 unset config_files
 
+# Load completions
+autoload -Uz compinit
+compinit
 
-if [ -f "$HOME/.local/bin/env" ]; then
-  . "$HOME/.local/bin/env"
-fi
-
+# Completions for terraform
 if command -v terraform >/dev/null 2>&1; then
   autoload -U +X bashcompinit && bashcompinit
   complete -o nospace -C "$(command -v terraform)" terraform
 fi
 
+# Docker completions
 if [ -d "$HOME/.docker/completions" ]; then
   fpath=("$HOME/.docker/completions" $fpath)
 fi
 
-autoload -Uz compinit
-compinit
-
+# UV completions
 if command -v uvx >/dev/null 2>&1; then
   eval "$(uvx --generate-shell-completion zsh)"
-fi
-
-if [ -d "$HOME/.antigravity/antigravity/bin" ]; then
-  export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 fi
