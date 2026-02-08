@@ -17,3 +17,8 @@ if command -v broot >/dev/null 2>&1; then
         fi
     }
 fi
+
+# Broot launcher
+if [ -f "$HOME/.config/broot/launcher/bash/br" ]; then
+  source "$HOME/.config/broot/launcher/bash/br"
+fi
