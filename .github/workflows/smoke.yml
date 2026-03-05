@@ -1,61 +1,61 @@
 name: smoke
 
 on:
-  pull_request:
-  push:
-    branches:
-      - main
+    pull_request:
+    push:
+        branches:
+            - main
 
 jobs:
-  dotfiles-smoke:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
+    dotfiles-smoke:
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, macos-latest]
 
-    runs-on: ${{ matrix.os }}
+        runs-on: ${{ matrix.os }}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Install CI dependencies (Ubuntu)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y stow zsh shellcheck
+            - name: Install CI dependencies (Ubuntu)
+              if: runner.os == 'Linux'
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y stow zsh shellcheck
 
-      - name: Install CI dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install stow shellcheck
+            - name: Install CI dependencies (macOS)
+              if: runner.os == 'macOS'
+              run: |
+                  brew install stow shellcheck
 
-      - name: Shell syntax checks
-        run: |
-          set -e
-          find . -name 'install.sh' -type f -print0 | xargs -0 -n1 sh -n
-          find . -name '*.zsh' -type f -print0 | xargs -0 -n1 zsh -n
+            - name: Shell syntax checks
+              run: |
+                  set -e
+                  find . -name 'install.sh' -type f -print0 | xargs -0 -n1 sh -n
+                  find . -name '*.zsh' -type f -print0 | xargs -0 -n1 zsh -n
 
-      - name: ShellCheck installers
-        run: |
-          set -e
-          find . -name 'install.sh' -type f -print0 | xargs -0 shellcheck -s sh
+            - name: ShellCheck installers
+              run: |
+                  set -e
+                  find . -name 'install.sh' -type f -print0 | xargs -0 shellcheck -s sh
 
-      - name: Verify install precedence order
-        run: |
-          set -e
-          HB_LINE=$(grep -n 'homebrew/install.sh' Makefile | head -n1 | cut -d: -f1)
-          MISE_LINE=$(grep -n 'mise/install.sh' Makefile | head -n1 | cut -d: -f1)
-          TOPIC_LINE=$(grep -n 'find \\. -name install.sh' Makefile | head -n1 | cut -d: -f1)
+            - name: Verify install precedence order
+              run: |
+                  set -e
+                  HB_LINE=$(grep -n 'homebrew/install.sh' Makefile | head -n1 | cut -d: -f1)
+                  MISE_LINE=$(grep -n 'mise/install.sh' Makefile | head -n1 | cut -d: -f1)
+                  TOPIC_LINE=$(grep -n 'find \\. -name install.sh' Makefile | head -n1 | cut -d: -f1)
 
-          test -n "$HB_LINE"
-          test -n "$MISE_LINE"
-          test -n "$TOPIC_LINE"
+                  test -n "$HB_LINE"
+                  test -n "$MISE_LINE"
+                  test -n "$TOPIC_LINE"
 
-          if [ "$HB_LINE" -ge "$MISE_LINE" ] || [ "$MISE_LINE" -ge "$TOPIC_LINE" ]; then
-            echo "Install precedence is broken. Expected: homebrew -> mise -> topic installers"
-            exit 1
-          fi
+                  if [ "$HB_LINE" -ge "$MISE_LINE" ] || [ "$MISE_LINE" -ge "$TOPIC_LINE" ]; then
+                    echo "Install precedence is broken. Expected: homebrew -> mise -> topic installers"
+                    exit 1
+                  fi
 
-      - name: Stow dry-run integrity check
-        run: make check
+            - name: Stow dry-run integrity check
+              run: make check

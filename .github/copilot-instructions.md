@@ -25,6 +25,7 @@ Shared defaults belong in versioned files.
 Machine-specific and secret values must be in local (untracked) files, e.g. `~/.localrc`.
 
 When adding a setting, ask:
+
 - Is this valid for macOS + Linux + WSL?
 - Is this host-specific or secret?
 
@@ -45,6 +46,7 @@ At minimum, verify:
 CI should validate repo integrity, not fully provision desktop apps.
 
 Required smoke checks:
+
 - Run shell syntax checks on all `install.sh` and key shell files.
 - Validate `make check` can run in CI environment.
 - Validate precedence invariants (brew first, then mise, then topic scripts).
@@ -53,6 +55,7 @@ Required smoke checks:
 ## 6) Standard `install.sh` style
 
 All topic installers should:
+
 - Use `#!/bin/sh` and `set -e`.
 - Be idempotent (safe to rerun).
 - Check prerequisites explicitly with actionable errors.
@@ -65,6 +68,7 @@ Avoid bespoke behavior when a common pattern exists.
 
 Do not maintain a giant per-tool table manually.
 Instead, document:
+
 - The precedence policy,
 - The canonical locations (`Brewfile`, `Mac.Brewfile`, `mise/.config/mise/config.toml`, topic installers),
 - A short "how to add a tool" checklist.
@@ -73,6 +77,7 @@ Instead, document:
 
 A formal changelog is **optional**.
 Use release notes/changelog entries only for user-visible or breaking behavior changes, such as:
+
 - PATH/precedence behavior changes,
 - default shell behavior changes,
 - removed or renamed commands/topics.
