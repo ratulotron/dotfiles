@@ -8,12 +8,21 @@ LEGACY_FIND = find $$HOME -maxdepth 4 -type l \
 	   -o -lname "$$HOME/.dotfiles/*/*.symlink.*" \
 	   -o -lname "$$HOME/.dotfiles/*/*.symlink.d" \)
 
+# Common pre-existing config files that conflict with first stow on a new machine
+STOW_CONFLICT_PATHS = \
+	.config/atuin/config.toml \
+	.config/ghostty/config \
+	.gitconfig \
+	.config/mise/config.toml \
+	.config/starship.toml \
+	.zshrc
+
 # Exclude macos on Linux
 ifneq ($(shell uname),Darwin)
 	PACKAGES := $(filter-out macos/ , $(PACKAGES))
 endif
 
-.PHONY: all install update stow clean unlink-legacy check
+.PHONY: all install update stow clean unlink-legacy check backup-preexisting
 
 all: stow
 
@@ -22,13 +31,25 @@ install:
 	@# Run homebrew first (provides package manager)
 	@if [ -f homebrew/install.sh ]; then ./homebrew/install.sh; fi
 	@# Run mise second (provides language runtimes)
-	@if [ -f mise/install.sh ]; then ./mise/install.sh; fi
+	@if [ -f mise/install.sh ]; then MISE_GLOBAL_CONFIG_FILE="$$PWD/mise/.config/mise/config.toml" ./mise/install.sh; fi
 	@# Run remaining install scripts (LSPs, completions, etc.)
 	@find . -name install.sh ! -path ./homebrew/install.sh ! -path ./mise/install.sh -exec {} \;
 
-stow: unlink-legacy
+stow: unlink-legacy backup-preexisting
 	@echo "› Stowing packages..."
 	@stow --verbose --target=$$HOME --restow --ignore='^[^.]' $(PACKAGES)
+
+backup-preexisting:
+	@backup_root="$$HOME/.dotfiles-backup/$$(date +%Y%m%d-%H%M%S)"; \
+	for rel in $(STOW_CONFLICT_PATHS); do \
+		target="$$HOME/$$rel"; \
+		if [ -e "$$target" ] && [ ! -L "$$target" ]; then \
+			backup_path="$$backup_root/$$rel"; \
+			mkdir -p "$$(dirname "$$backup_path")"; \
+			mv "$$target" "$$backup_path"; \
+			echo "  Backed up $$target -> $$backup_path"; \
+		fi; \
+	done
 
 check:
 	@echo "› Checking stow packages (dry run)..."

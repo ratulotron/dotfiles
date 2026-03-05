@@ -16,13 +16,15 @@ experimental = true
 legacy_version_file = true
 
 [tools]
-# === JavaScript/TypeScript ===https://asse.awsapps.com/start/#
+# === JavaScript/TypeScript ===
 node = "lts"    # Core runtime for static site
 pnpm = "latest" # Fast package manager
 
 # === Python ===
 python = "latest" # Python runtime
 uv = "latest"
+ruff = "latest"
+"npm:pyright" = "latest"
 
 # === Golang ===
 go = "1.25"
@@ -31,10 +33,10 @@ go = "1.25"
 "go:github.com/go-delve/delve/cmd/dlv" = "latest"
 
 # === DevOps ===
-terraform = "latest"
+# terraform = "latest"
 
 # === AI/ML ===
-ollama = "latest"
+# ollama = "latest"
 
 [env]
 # Python environment settings

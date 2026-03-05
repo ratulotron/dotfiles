@@ -1,8 +1,3 @@
 [user]
         name = Ratul Minhaz
         email = minhaz.ratul@gmail.com
-[credential]
-        helper = osxkeychain
-
-[url "ssh://git@github.com/"]
-    insteadOf = https://github.com/

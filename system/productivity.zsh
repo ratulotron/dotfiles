@@ -27,7 +27,6 @@ alias df='duf'              # Use duf instead of df
 # Developer productivity
 alias serve='python3 -m http.server'    # Quick HTTP server
 alias myip='curl ifconfig.me'           # Get public IP
-alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 
 # File operations
 # alias cat='bat'              # Better cat with syntax highlighting
@@ -81,11 +80,6 @@ todo() {
     fi
 }
 
-# Show most used commands
-stats() {
-    fc -l 1 | awk '{CMD[$2]++; count++} END {for (a in CMD) print CMD[a] " " CMD[a]*100/count "% " a}' | grep -v "./" | sort -nr | head -20 | column -c3 -s " " -t | nl
-}
-
 # Weather function
 weather() {
     curl -s "wttr.in/${1:-}"
@@ -111,9 +105,6 @@ psgrep() {
 alias ports='netstat -tulanp'
 alias listening='lsof -i -P | grep LISTEN'
 
-# Copy public key to clipboard (macOS)
-alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
-
 # Quick server for current directory
 alias server='python3 -m http.server 8000'
 
@@ -126,5 +117,5 @@ urlencode() {
 }
 
 urldecode() {
-    python3 -c "import urllib.parse; print(urllib.parse.quote_plus('$1'))"
+    python3 -c "import urllib.parse; print(urllib.parse.unquote_plus('$1'))"
 }

@@ -8,6 +8,13 @@ set -e
 
 export PATH="$HOME/.local/share/mise/bin:$HOME/.local/bin:$PATH"
 
+DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
+REPO_MISE_CONFIG="$DOTFILES/mise/.config/mise/config.toml"
+
+if [ -z "${MISE_GLOBAL_CONFIG_FILE:-}" ] && [ -f "$REPO_MISE_CONFIG" ]; then
+  export MISE_GLOBAL_CONFIG_FILE="$REPO_MISE_CONFIG"
+fi
+
 if ! command -v mise >/dev/null 2>&1; then
   echo "  Installing Mise for you."
   curl https://mise.run | sh

@@ -15,3 +15,5 @@ quick-terminal-screen = main
 quick-terminal-autohide = true
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = shift+enter=text:\x1b[13;2u
+keybind = cmd+c=copy_to_clipboard
+keybind = cmd+v=paste_from_clipboard

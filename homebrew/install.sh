@@ -16,6 +16,21 @@ else
   echo "  Homebrew already installed."
 fi
 
+# Ensure brew is available in this shell after a fresh install
+if ! command -v brew >/dev/null 2>&1; then
+  for brew_bin in /home/linuxbrew/.linuxbrew/bin /opt/homebrew/bin /usr/local/bin; do
+    if [ -x "$brew_bin/brew" ]; then
+      export PATH="$brew_bin:$PATH"
+      break
+    fi
+  done
+fi
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "  Homebrew could not be found on PATH after installation." >&2
+  exit 1
+fi
+
 # Install cross-platform packages
 if [ -f "$DOTFILES/Brewfile" ]; then
   echo "  Installing Homebrew packages..."

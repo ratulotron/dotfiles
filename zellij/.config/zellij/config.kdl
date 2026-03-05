@@ -30,7 +30,7 @@ plugins {
     session-manager { path "session-manager"; }
 }
 
-// Theme: Tokyo Night
+// Themes
 themes {
     tokyo-night {
         fg "#a9b1d6"
@@ -44,6 +44,34 @@ themes {
         cyan "#449dab"
         white "#787c99"
         orange "#ff9e64"
+    }
+
+    solarized-dark {
+        fg "#839496"
+        bg "#002b36"
+        black "#073642"
+        red "#dc322f"
+        green "#859900"
+        yellow "#b58900"
+        blue "#268bd2"
+        magenta "#d33682"
+        cyan "#2aa198"
+        white "#eee8d5"
+        orange "#cb4b16"
+    }
+
+    solarized-light {
+        fg "#657b83"
+        bg "#fdf6e3"
+        black "#eee8d5"
+        red "#dc322f"
+        green "#859900"
+        yellow "#b58900"
+        blue "#268bd2"
+        magenta "#d33682"
+        cyan "#2aa198"
+        white "#073642"
+        orange "#cb4b16"
     }
 }
 
@@ -65,7 +93,7 @@ mouse_mode true
 scroll_buffer_size 10000
 copy_on_select true
 scrollback_editor "/usr/bin/hx"
-copy_command "pbcopy"
+copy_clipboard "system"
 
 // Simplified UI - hide hints after you learn the keybinds
 // Uncomment when comfortable:

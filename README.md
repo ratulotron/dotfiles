@@ -84,7 +84,7 @@ dot help       # Show commands
 ## what's different
 
 - **Modern CLI tools**: `bat`, `fd`, `ripgrep`, `eza`, `git-delta`, `zoxide` replacing old Unix utilities
-- **Development setup**: Node.js, Python, Rust, Go, Docker, PostgreSQL
+- **Development setup**: Node.js, Python, Go, Docker, PostgreSQL
 - **macOS optimized**: Ghostty terminal, Raycast, Rectangle, developer-friendly system defaults
 - **Shell enhancements**: Oh My Zsh, Atuin history sync, 50+ aliases, smart completions
 - **Tokyo Night theming**: Consistent colors across all tools
@@ -96,7 +96,7 @@ The dotfiles use [Oh My Zsh](https://ohmyz.sh/) as the shell framework. It's ins
 - **zsh-autosuggestions** – fish-like command suggestions
 - **zsh-syntax-highlighting** – real-time syntax highlighting
 
-The plugin list lives in `zsh/.zshrc`. Themes are disabled because **Starship** handles the prompt (see `starship/.config/starship.toml`).
+The plugin list lives in `zsh/omz-config.zsh`. Themes are disabled because **Starship** handles the prompt (see `starship/.config/starship.toml`).
 
 To add or remove plugins, edit the `plugins=( ... )` array in `zsh/.zshrc` and reload with `source ~/.zshrc` or open a new terminal.
 
@@ -108,7 +108,7 @@ Tools are installed in this order of preference:
 2. **[Mise](https://mise.jdx.dev/)** - Language runtimes with version management
 3. **Topical `install.sh` scripts** - Last resort for tools not available elsewhere
 
-CLI utilities like `bat`, `fd`, `ripgrep`, `eza`, `git-delta` are managed by Homebrew for simplicity. Language runtimes (`node`, `python`, `rust`, `go`) are managed by Mise for per-project version control.
+CLI utilities like `bat`, `fd`, `ripgrep`, `eza`, `git-delta` are managed by Homebrew for simplicity. Language runtimes (`node`, `python`, `go`) are managed by Mise for per-project version control.
 
 ### source of truth (low-overhead)
 
@@ -127,6 +127,7 @@ Keep shared defaults in this repo, and put host-specific/secrets in untracked lo
 
 - Use `~/.localrc` for secrets and machine-only env vars.
 - Prefer local mise overrides in `~/.config/mise/config.local.toml` for machine-specific runtime/tool differences.
+- Use `~/.gitconfig.machine` for machine-only Git settings (credential helpers, SSH URL rewrites).
 - Do not commit office-only, personal-only, or WSL-only overrides into shared topic files.
 
 ### adding a tool to Mise
@@ -142,8 +143,11 @@ mise install
 ### via Homebrew (`Brewfile`)
 
 - **Modern CLI**: `bat`, `eza`, `fd`, `ripgrep`, `git-delta`, `zoxide`, `dust`, `duf`, `bottom`, `procs`, `sd`, `xh`, `tealdeer`
-- **Dev tools**: `fzf`, `jq`, `yq`, `just`, `gh`, `lazygit`, `starship`, `helix`, `hyperfine`
-- **System**: `git`, `stow`, `mise`, `wget`, `tree`, `htop`, `ffmpeg`
+- **Dev tools**: `jq`, `yq`, `just`, `gh`, `aws-sso-cli`, `lazygit`, `starship`, `helix`
+- **System**: `git`, `stow`, `mise`, `wget`, `tree`, `htop`, `trash`
+- **Containers/DevOps**: `docker`, `docker-compose`, `docker-credential-helper`, `colima`, `ctop`, `dive`
+- **Database**: `postgresql@14`
+- **Terminal & Navigation**: `zellij`, `broot`
 
 ### via Homebrew (`Mac.Brewfile`) - macOS only
 
@@ -151,8 +155,8 @@ mise install
 
 ### via Mise (`mise/.config/mise/config.toml`)
 
-- **Languages**: Node.js, Python, Rust, Go, Elixir, Gleam, Deno, Bun
-- **Ecosystem tools**: uv, ruff, pnpm, yarn, cargo-binstall, terraform, ollama
+- **Languages**: Node.js, Python, Go
+- **Ecosystem tools**: `uv`, `ruff`, `pnpm`, `pyright` (npm backend), `gopls`, `goimports`, `dlv`
 
 ## troubleshooting
 
@@ -168,6 +172,32 @@ Common fixes:
 - Missing packages: `dot install`
 - Outdated system: `dot update`
 - Toolchain drift: `mise install`
+
+### remove a machine-generated file from stow
+
+If an app keeps generating a file (for example `~/.config/atuin/atuin-receipt.json`), do not manage that file in shared dotfiles.
+
+1. Add the path/pattern to the package's `.stow-local-ignore`.
+2. Remove the tracked file from the repo package.
+3. Restow so only intended files remain linked.
+
+Example:
+
+```sh
+# 1) ignore in package
+echo '\\.config/atuin/atuin-receipt\\.json' >> atuin/.stow-local-ignore
+
+# 2) remove from repo package
+rm -f atuin/.config/atuin/atuin-receipt.json
+
+# 3) restow
+make stow
+```
+
+Notes:
+
+- Keep machine-specific/secrets out of shared dotfiles (`~/.localrc`, local configs).
+- If the target file already exists as a real file, `make stow` now backs up common conflicts to `~/.dotfiles-backup/<timestamp>/` before linking.
 
 ## ci smoke checks
 

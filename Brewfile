@@ -33,7 +33,6 @@ brew 'xh'             # Friendly HTTP client (HTTPie in Rust)
 brew 'tealdeer'       # Very fast tldr client
 
 # Development Tools
-brew 'fzf'            # Fuzzy finder
 brew 'jq'             # JSON processor
 brew 'yq'             # YAML processor
 brew 'just'           # Command runner (Makefile alternative)
@@ -59,9 +58,9 @@ brew 'postgresql@14'
 # brew 'ffmpeg'
 # brew 'yt-dlp'
 # brew 'hut'            # Source Hut CLI
-brew 'spaceman-diff'
+# brew 'spaceman-diff'
 # brew 'bandwhich'      # Network utilization by process
-# brew 'broot'          # Interactive directory tree navigator
+brew 'broot'          # Interactive directory tree navigator
 # brew 'choose'         # Human-friendly alternative to cut/awk
 # brew 'glow'           # Terminal markdown renderer
 # brew 'hexyl'          # Command-line hex viewer
@@ -71,5 +70,10 @@ brew 'spaceman-diff'
 # brew 'tokei'          # Code statistics tool
 # brew 'watchexec'      # Execute commands when files change
 brew 'zellij'         # Terminal workspace (tmux alternative)
-brew 'grc'            # Colorize command output
-brew 'entr'           # File watcher for automation
+# brew 'grc'            # Colorize command output
+# brew 'entr'           # File watcher for automation
+
+# AI
+brew 'ollama'         # Local LLM management
+brew 'copilot-cli'   # GitHub Copilot CLI tool
+brew 'claude-code'   # Anthropic Claude code assistant

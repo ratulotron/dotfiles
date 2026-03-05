@@ -1,5 +1,6 @@
 .*\.zsh
 .*\.sh
+\.config/atuin/atuin-receipt\.json
 README\.md
 LICENSE
 Makefile
