@@ -1,9 +1,9 @@
 # Homebrew Bundle - Cross-platform packages
-# macOS casks are in Brewfile.mac
+# macOS casks are in Mac.Brewfile
 #
 # Usage:
 #   brew bundle                      # Install from Brewfile
-#   brew bundle --file=Brewfile.mac  # Install macOS casks (macOS only)
+#   brew bundle --file=Mac.Brewfile  # Install macOS casks (macOS only)
 #   brew bundle cleanup              # Remove unlisted packages
 
 tap 'homebrew/bundle'
@@ -14,6 +14,7 @@ brew 'stow'
 brew 'mise'           # Manages language runtimes (node, python, rust, go, etc.)
 brew 'wget'
 brew 'tree'
+brew 'htop'
 brew 'trash'          # Safe rm replacement
 
 # Modern CLI Replacements
@@ -21,7 +22,7 @@ brew 'bat'            # Better cat with syntax highlighting
 brew 'eza'            # Modern ls replacement
 brew 'fd'             # Fast find alternative
 brew 'ripgrep'        # Ultra-fast grep
-brew 'delta'          # Syntax-highlighting pager for git/diff
+brew 'git-delta'      # Syntax-highlighting pager for git/diff
 brew 'zoxide'         # Smarter cd command
 brew 'dust'           # Better du (directory usage)
 brew 'duf'            # Better df (disk usage)
@@ -37,12 +38,17 @@ brew 'jq'             # JSON processor
 brew 'yq'             # YAML processor
 brew 'just'           # Command runner (Makefile alternative)
 brew 'gh'             # GitHub CLI
+brew 'aws-sso-cli'
 brew 'lazygit'        # Terminal UI for Git
 brew 'starship'       # Shell prompt
 brew 'helix'          # Text editor
-brew 'hyperfine'      # Command benchmarking
+# brew 'hyperfine'      # Command benchmarking
 
 # Containers & DevOps
+brew 'docker'
+brew 'docker-compose'
+brew 'docker-credential-helper'
+brew 'colima'
 brew 'ctop'           # Top for containers
 brew 'dive'           # Docker image analyzer
 
@@ -50,21 +56,20 @@ brew 'dive'           # Docker image analyzer
 brew 'postgresql@14'
 
 # Specialized Tools
-brew 'ffmpeg'
-brew 'yt-dlp'
-brew 'hut'            # Source Hut CLI
+# brew 'ffmpeg'
+# brew 'yt-dlp'
+# brew 'hut'            # Source Hut CLI
 brew 'spaceman-diff'
-brew 'bandwhich'      # Network utilization by process
-brew 'broot'          # Interactive directory tree navigator
-brew 'choose'         # Human-friendly alternative to cut/awk
-brew 'glow'           # Terminal markdown renderer
-brew 'hexyl'          # Command-line hex viewer
-brew 'jless'          # JSON viewer and explorer
-brew 'lnav'           # Log file navigator
-brew 'oha'            # HTTP load testing (wrk alternative)
-brew 'tokei'          # Code statistics tool
-brew 'watchexec'      # Execute commands when files change
+# brew 'bandwhich'      # Network utilization by process
+# brew 'broot'          # Interactive directory tree navigator
+# brew 'choose'         # Human-friendly alternative to cut/awk
+# brew 'glow'           # Terminal markdown renderer
+# brew 'hexyl'          # Command-line hex viewer
+# brew 'jless'          # JSON viewer and explorer
+# brew 'lnav'           # Log file navigator
+# brew 'oha'            # HTTP load testing (wrk alternative)
+# brew 'tokei'          # Code statistics tool
+# brew 'watchexec'      # Execute commands when files change
 brew 'zellij'         # Terminal workspace (tmux alternative)
 brew 'grc'            # Colorize command output
 brew 'entr'           # File watcher for automation
-brew 'htop'

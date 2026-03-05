@@ -1,5 +1,5 @@
 # Homebrew Bundle - macOS Casks
-# Run separately: brew bundle --file=Brewfile.mac
+# Run separately: brew bundle --file=Mac.Brewfile
 
 cask_args appdir: '/Applications'
 
@@ -8,41 +8,46 @@ cask 'ghostty'
 cask 'iterm2'
 
 # Editors & IDEs
-cask 'cursor'
+# cask 'cursor'
 cask 'visual-studio-code'
 
 # Development
-cask 'livebook'
+# cask 'livebook'
 cask 'postman'
-cask 'popsql'
-cask 'dash'           # API documentation browser
-cask 'proxyman'       # Web debugging proxy
-cask 'sequel-ace'     # MySQL client
-cask 'tableflip'      # Markdown table editor
+# cask 'popsql'
+# cask 'dash'           # API documentation browser
+# cask 'proxyman'       # Web debugging proxy
+# cask 'sequel-ace'     # MySQL client
+# cask 'tableflip'      # Markdown table editor
 
 # Utilities
 cask 'raycast'
 cask 'rectangle'
-cask 'cleanmymac'
+# cask 'cleanmymac'
 cask 'bitwarden'
 cask 'pastebot'       # Clipboard manager
 cask 'android-platform-tools'
 
 # AI Tools
-cask 'claude'
-cask 'chatgpt'
+# cask 'claude'
+# cask 'chatgpt'
 
 # Communication
 cask 'discord'
-cask 'messenger'
+cask 'proton-mail'
+# cask 'messenger'
 cask 'slack'
-cask 'whatsapp'
-cask 'zoom'
+# cask 'whatsapp'
+# cask 'zoom'
+
+# Privacy & Security
+cask 'protonvpn'
+cask 'proton-pass'
 
 # Productivity
-cask 'notion'
-cask 'notion-calendar'
-cask 'figma'
+# cask 'notion'
+# cask 'notion-calendar'
+# cask 'figma'
 
 # Media & Entertainment
 cask 'spotify'

@@ -23,9 +23,9 @@ if [ -f "$DOTFILES/Brewfile" ]; then
 fi
 
 # Install macOS casks (only on macOS)
-if [ "$(uname)" = "Darwin" ] && [ -f "$DOTFILES/Brewfile.mac" ]; then
+if [ "$(uname)" = "Darwin" ] && [ -f "$DOTFILES/Mac.Brewfile" ]; then
   echo "  Installing macOS casks..."
-  brew bundle --file="$DOTFILES/Brewfile.mac"
+  brew bundle --file="$DOTFILES/Mac.Brewfile"
 fi
 
 exit 0

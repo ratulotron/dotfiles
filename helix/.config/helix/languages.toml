@@ -32,6 +32,15 @@ args = ["server"]
 # Go
 [language-server.gopls]
 command = "gopls"
+[language-server.gopls.config]
+gofumpt = true
+local = "goimports"
+semanticTokens = true
+staticcheck = true
+analyses = { "fieldalignment" = true, "nilness" = true, unusedparams = true, unusedwrite = true, useany = true }
+usePlaceholders = true
+completeUnimported = true
+hints = { "assignVariableType" = true, "compositeLiteralFields" = true, "compositeLiteralTypes" = true, "constantValues" = true, "functionTypeParameters" = true, "parameterNames" = true, "rangeVariableTypes" = true }
 
 # Elixir
 [language-server.elixir-ls]
@@ -185,8 +194,54 @@ formatter = { command = "terraform", args = ["fmt", "-"] }
 [[language]]
 name = "go"
 auto-format = true
+roots = ["go.work", "go.mod"]
 language-servers = ["gopls"]
-formatter = { command = "gofmt" }
+formatter = { command = "goimports" }
+
+[language.debugger]
+name = "go"
+transport = "tcp"
+command = "dlv"
+args = ["dap"]
+port-arg = "-l 127.0.0.1:{}"
+
+[[language.debugger.templates]]
+name = "source"
+request = "launch"
+completion = [{ name = "entrypoint", completion = "filename", default = "." }]
+args = { mode = "debug", program = "{0}" }
+
+[[language.debugger.templates]]
+name = "test"
+request = "launch"
+completion = [{ name = "tests", completion = "directory", default = "." }]
+args = { mode = "test", program = "{0}" }
+
+[[language.debugger.templates]]
+name = "attach"
+request = "attach"
+completion = ["pid"]
+args = { mode = "local", processId = "{0}" }
+
+[[language]]
+name = "gomod"
+auto-format = true
+file-types = [{ glob = "go.mod" }]
+language-servers = ["gopls"]
+indent = { tab-width = 4, unit = "\t" }
+
+[[language]]
+name = "gowork"
+auto-format = true
+file-types = [{ glob = "go.work" }]
+language-servers = ["gopls"]
+indent = { tab-width = 4, unit = "\t" }
+
+[[language]]
+name = "gotmpl"
+file-types = ["gotmpl"]
+language-servers = ["gopls"]
+indent = { tab-width = 2, unit = "  " }
 
 # Elixir
 [[language]]

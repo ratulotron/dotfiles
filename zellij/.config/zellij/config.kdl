@@ -65,6 +65,7 @@ mouse_mode true
 scroll_buffer_size 10000
 copy_on_select true
 scrollback_editor "/usr/bin/hx"
+copy_command "pbcopy"
 
 // Simplified UI - hide hints after you learn the keybinds
 // Uncomment when comfortable:
