@@ -1,0 +1,10 @@
+# Solarized Light theme for Atuin
+# Based on Ethan Schoonover's Solarized palette
+
+AlertInfo = "steelblue"
+AlertWarn = "goldenrod"
+AlertError = "indianred"
+Annotation = "darkgray"
+Base = "black"
+Guidance = "teal"
+Important = "darkcyan"
