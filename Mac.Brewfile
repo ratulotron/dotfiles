@@ -8,11 +8,12 @@ brew 'trash'
 
 # Terminals
 cask 'ghostty'
-cask 'iterm2'
+# cask 'iterm2'
 
 # Editors & IDEs
 # cask 'cursor'
 cask 'visual-studio-code'
+cask 'antigravity'
 
 # Development
 # cask 'livebook'
@@ -44,19 +45,20 @@ cask 'slack'
 # cask 'zoom'
 
 # Privacy & Security
-cask 'protonvpn'
-cask 'proton-pass'
+# cask 'protonvpn'
+# cask 'proton-pass'
 
 # Productivity
 # cask 'notion'
 # cask 'notion-calendar'
 # cask 'figma'
+cask 'obsidian'
 
 # Media & Entertainment
 cask 'spotify'
 cask 'vlc'
-cask 'qbittorrent'
-cask 'syncplay'
+# cask 'qbittorrent'
+# cask 'syncplay'
 
 # Browsers
 cask 'google-chrome'

@@ -72,6 +72,6 @@ brew 'zellij'         # Terminal workspace (tmux alternative)
 # brew 'entr'           # File watcher for automation
 
 # AI
-brew 'ollama'         # Local LLM management
+# brew 'ollama'         # Local LLM management
 # brew 'copilot-cli'   # moved to mise (npm backend)
 # brew 'claude-code'   # moved to mise (npm backend)
