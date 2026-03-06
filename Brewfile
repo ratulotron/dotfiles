@@ -6,8 +6,6 @@
 #   brew bundle --file=Mac.Brewfile  # Install macOS casks (macOS only)
 #   brew bundle cleanup              # Remove unlisted packages
 
-tap 'homebrew/bundle'
-
 # Core System Tools
 brew 'git'
 brew 'stow'
@@ -15,7 +13,7 @@ brew 'mise'           # Manages language runtimes (node, python, rust, go, etc.)
 brew 'wget'
 brew 'tree'
 brew 'htop'
-brew 'trash'          # Safe rm replacement
+# brew 'trash'          # macOS only (see Mac.Brewfile)
 
 # Modern CLI Replacements
 brew 'bat'            # Better cat with syntax highlighting
@@ -75,5 +73,5 @@ brew 'zellij'         # Terminal workspace (tmux alternative)
 
 # AI
 brew 'ollama'         # Local LLM management
-brew 'copilot-cli'   # GitHub Copilot CLI tool
-brew 'claude-code'   # Anthropic Claude code assistant
+# brew 'copilot-cli'   # moved to mise (npm backend)
+# brew 'claude-code'   # moved to mise (npm backend)

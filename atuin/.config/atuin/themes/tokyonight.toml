@@ -3,10 +3,10 @@
 # https://github.com/folke/tokyonight.nvim
 
 # Main colors
-AlertInfo = "sky_blue"          # #7aa2f7 - info blue
-AlertWarn = "yellow"           # #e0af68 - warning yellow  
-AlertError = "red"             # #f7768e - error red
-Annotation = "dark_gray"       # #565f89 - comment gray
-Base = "black"                 # #1a1b26 - background
-Guidance = "purple"            # #bb9af7 - purple accent
-Important = "cyan"             # #7dcfff - bright cyan
+AlertInfo = "lightskyblue" # #7aa2f7 - info blue
+AlertWarn = "goldenrod"    # #e0af68 - warning yellow
+AlertError = "lightcoral"  # #f7768e - error red
+Annotation = "slategray"   # #565f89 - comment gray
+Base = "white"             # high-contrast base text
+Guidance = "mediumpurple"  # #bb9af7 - purple accent
+Important = "cyan"         # #7dcfff - bright cyan

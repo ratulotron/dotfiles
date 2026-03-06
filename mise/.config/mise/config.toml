@@ -21,7 +21,7 @@ node = "lts"    # Core runtime for static site
 pnpm = "latest" # Fast package manager
 
 # === Python ===
-python = "latest" # Python runtime
+python = "latest"        # Python runtime
 uv = "latest"
 ruff = "latest"
 "npm:pyright" = "latest"
@@ -36,6 +36,8 @@ go = "1.25"
 # terraform = "latest"
 
 # === AI/ML ===
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@github/copilot" = "latest"
 # ollama = "latest"
 
 [env]

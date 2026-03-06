@@ -15,6 +15,7 @@ STOW_CONFLICT_PATHS = \
 	.gitconfig \
 	.config/mise/config.toml \
 	.config/starship.toml \
+	.config/zellij/config.kdl \
 	.zshrc
 
 # Exclude macos on Linux
