@@ -48,6 +48,7 @@ brew 'docker-credential-helper'
 brew 'colima'
 brew 'ctop'           # Top for containers
 brew 'dive'           # Docker image analyzer
+brew 'lazydocker'     # Terminal UI for Docker
 
 # Database
 brew 'postgresql@14'

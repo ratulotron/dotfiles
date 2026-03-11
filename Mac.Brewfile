@@ -3,9 +3,6 @@
 
 cask_args appdir: '/Applications'
 
-# macOS-only formulae
-brew 'trash'
-
 # Terminals
 cask 'ghostty'
 # cask 'iterm2'
