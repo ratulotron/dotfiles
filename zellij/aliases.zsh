@@ -5,15 +5,16 @@
 if command -v zellij >/dev/null 2>&1; then
     if [[ -z "$ZELLIJ" && -z "$INSIDE_EMACS" && -z "$VSCODE_INJECTION" ]]; then
         # Uncomment ONE of these options:
-        
+
         # Option 1: Auto-attach to 'main' session (or create it)
         # zellij attach main 2>/dev/null || zellij -s main
-        
+
         # Option 2: Always create a new session
         # zellij
-        
+
         # Option 3: Attach to any existing session, or create new
         # zellij attach 2>/dev/null || zellij
+        true
     fi
 fi
 

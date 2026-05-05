@@ -15,28 +15,28 @@ command_exists() {
 # Check for required tools
 check_requirements() {
     echo "🔍 Checking requirements..."
-    
+
     local missing_tools=()
-    
+
     for tool in git brew zsh; do
         if ! command_exists "$tool"; then
             missing_tools+=("$tool")
         fi
     done
-    
+
     if [ ${#missing_tools[@]} -ne 0 ]; then
         echo "❌ Missing required tools: ${missing_tools[*]}"
         echo "Please install these tools before running this script."
         exit 1
     fi
-    
+
     echo "✅ All requirements met"
 }
 
 # Update system packages
 update_system() {
     echo "📦 Updating system packages..."
-    
+
     # Update Homebrew
     if command_exists brew; then
         echo "Updating Homebrew..."
@@ -44,42 +44,42 @@ update_system() {
         brew upgrade
         brew cleanup
     fi
-    
+
     # Update npm packages globally
     if command_exists npm; then
         echo "Updating global npm packages..."
         npm update -g
     fi
-    
+
     # Update Python packages
     if command_exists pip3; then
         echo "Updating pip..."
         pip3 install --upgrade pip
     fi
-    
+
     # Update Rust toolchain
     if command_exists rustup; then
         echo "Updating Rust toolchain..."
         rustup update
     fi
-    
+
     echo "✅ System packages updated"
 }
 
 # Git configuration helpers
 setup_git_config() {
     echo "🔧 Checking Git configuration..."
-    
+
     if [ -z "$(git config --global user.name)" ]; then
         read -p "Enter your Git username: " git_username
         git config --global user.name "$git_username"
     fi
-    
+
     if [ -z "$(git config --global user.email)" ]; then
         read -p "Enter your Git email: " git_email
         git config --global user.email "$git_email"
     fi
-    
+
     echo "✅ Git configured for $(git config --global user.name) <$(git config --global user.email)>"
 }
 
@@ -89,7 +89,7 @@ setup_ssh_keys() {
         echo "🔑 Generating SSH key..."
         ssh-keygen -t rsa -b 4096 -C "$(git config --global user.email)" -f ~/.ssh/id_rsa -N ""
         echo "✅ SSH key generated"
-        
+
         if command_exists pbcopy; then
             pbcopy < ~/.ssh/id_rsa.pub
             echo "📋 Public key copied to clipboard"
@@ -103,57 +103,57 @@ setup_ssh_keys() {
 # Development directories setup
 setup_dev_directories() {
     echo "📁 Setting up development directories..."
-    
+
     local dev_dirs=(
         "$HOME/Projects"
         "$HOME/Code"
         "$HOME/.config"
         "$HOME/.local/bin"
     )
-    
+
     for dir in "${dev_dirs[@]}"; do
         if [ ! -d "$dir" ]; then
             mkdir -p "$dir"
             echo "Created: $dir"
         fi
     done
-    
+
     echo "✅ Development directories ready"
 }
 
 # Install additional development tools
 install_dev_tools() {
     echo "🛠 Installing additional development tools..."
-    
+
     # Install Node Version Manager if not present
     if [ ! -d "$HOME/.nvm" ]; then
         echo "Installing NVM..."
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     fi
-    
+
     # Install Python version manager if not present
     if ! command_exists pyenv && command_exists brew; then
         echo "Installing pyenv..."
         brew install pyenv
     fi
-    
+
     echo "✅ Additional tools installed"
 }
 
 # Performance optimization
 optimize_shell() {
     echo "⚡ Optimizing shell performance..."
-    
+
     # Create .hushlogin to suppress login message
     touch ~/.hushlogin
-    
+
     # Optimize zsh history
     if [ -n "$ZSH_VERSION" ]; then
         # These are handled in our zsh config, but let's ensure they exist
         echo "export HISTSIZE=10000" >> ~/.zshrc.local 2>/dev/null || true
         echo "export SAVEHIST=10000" >> ~/.zshrc.local 2>/dev/null || true
     fi
-    
+
     echo "✅ Shell optimized"
 }
 

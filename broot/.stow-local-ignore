@@ -1,2 +1,6 @@
-launcher/*
-init.zsh
+.*\.zsh
+.*\.sh
+README\.md
+LICENSE
+Makefile
+\.stow-local-ignore

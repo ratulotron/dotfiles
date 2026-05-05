@@ -36,4 +36,3 @@ else
 fi
 
 echo "  Oh My ZSH plugins check complete!"
-

@@ -22,11 +22,11 @@ gcommit() {
         echo "Types: feat, fix, docs, style, refactor, test, chore"
         return 1
     fi
-    
+
     local type="$1"
     shift
     local message="$*"
-    
+
     git add -A && git commit -m "${type}: ${message}"
 }
 
@@ -39,7 +39,7 @@ p() {
         # Try different common project directories
         for dir in ~/Projects ~/Code ~; do
             if [ -d "$dir/$1" ]; then
-                cd "$dir/$1"
+                cd "$dir/$1" || return
                 return 0
             fi
         done
@@ -63,7 +63,7 @@ pgconnect() {
         echo "Usage: pgconnect <database_url_or_name>"
         return 1
     fi
-    
+
     if [[ $1 == postgresql://* ]] || [[ $1 == postgres://* ]]; then
         psql "$1"
     else
@@ -81,7 +81,7 @@ dexec() {
         echo "Usage: dexec <container> [command]"
         return 1
     fi
-    
+
     local container="$1"
     shift
     docker exec -it "$container" "${@:-/bin/bash}"
@@ -127,10 +127,10 @@ search() {
         echo "Usage: search <pattern> [path]"
         return 1
     fi
-    
+
     local pattern="$1"
     local path="${2:-.}"
-    
+
     if command -v rg >/dev/null 2>&1; then
         rg "$pattern" "$path"
     else
@@ -144,10 +144,10 @@ killport() {
         echo "Usage: killport <port>"
         return 1
     fi
-    
+
     local port="$1"
     local pid=$(lsof -ti:$port)
-    
+
     if [ -n "$pid" ]; then
         echo "Killing process $pid on port $port"
         kill -9 $pid
@@ -177,7 +177,7 @@ logs() {
         echo "Usage: logs <service|file>"
         return 1
     fi
-    
+
     case "$1" in
         "docker")
             docker logs -f "${2:-$(docker ps -q | head -1)}"
@@ -216,7 +216,7 @@ bench() {
         echo "Usage: bench <command>"
         return 1
     fi
-    
+
     if command -v hyperfine >/dev/null 2>&1; then
         hyperfine "$@"
     else

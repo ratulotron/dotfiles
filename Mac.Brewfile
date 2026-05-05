@@ -1,7 +1,7 @@
 # Homebrew Bundle - macOS Casks
 # Run separately: brew bundle --file=Mac.Brewfile
 
-cask_args appdir: '/Applications'
+cask_args appdir: '~/Applications'
 
 # Terminals
 cask 'ghostty'
@@ -10,11 +10,11 @@ cask 'ghostty'
 # Editors & IDEs
 # cask 'cursor'
 cask 'visual-studio-code'
-cask 'antigravity'
+# cask 'antigravity'
 
 # Development
 # cask 'livebook'
-cask 'postman'
+# cask 'postman'
 # cask 'popsql'
 # cask 'dash'           # API documentation browser
 # cask 'proxyman'       # Web debugging proxy
@@ -22,8 +22,8 @@ cask 'postman'
 # cask 'tableflip'      # Markdown table editor
 
 # Utilities
-cask 'raycast'
-cask 'rectangle'
+# cask 'raycast'
+# cask 'rectangle'
 # cask 'cleanmymac'
 cask 'bitwarden'
 cask 'pastebot'       # Clipboard manager
@@ -38,12 +38,12 @@ cask 'discord'
 cask 'proton-mail'
 # cask 'messenger'
 cask 'slack'
-# cask 'whatsapp'
+cask 'whatsapp'
 # cask 'zoom'
 
 # Privacy & Security
-# cask 'protonvpn'
-# cask 'proton-pass'
+cask 'protonvpn'
+cask 'proton-pass'
 
 # Productivity
 # cask 'notion'
@@ -54,12 +54,13 @@ cask 'obsidian'
 # Media & Entertainment
 cask 'spotify'
 cask 'vlc'
+cask 'steam'
 # cask 'qbittorrent'
 # cask 'syncplay'
 
 # Browsers
 cask 'google-chrome'
-cask 'zen@twilight'
+cask 'zen'
 
 # Fonts
 cask 'font-blex-mono-nerd-font'

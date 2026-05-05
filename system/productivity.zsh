@@ -18,11 +18,10 @@ alias ....='cd ../../..'
 alias ~="cd ~"
 alias -- -="cd -"
 
-# System monitoring
-alias top='bottom'           # Use bottom instead of top
-alias ps='procs'            # Use procs instead of ps
-alias du='dust'             # Use dust instead of du
-alias df='duf'              # Use duf instead of df
+# Modern CLI shortcuts (don't override system commands)
+alias btm='bottom'
+alias prs='procs'
+alias dus='dust'
 
 # Developer productivity
 alias serve='python3 -m http.server'    # Quick HTTP server
@@ -67,7 +66,7 @@ extract() {
 
 # Make directory and cd into it
 mkcd() {
-    mkdir -p "$1" && cd "$1"
+    mkdir -p "$1" && cd "$1" || return
 }
 
 # Quick todo system (from holman's dotfiles)
@@ -82,7 +81,7 @@ todo() {
 
 # Weather function
 weather() {
-    curl -s "wttr.in/${1:-}"
+    curl -s "wttr.in/${1:-$(curl -s ipinfo.io/city)}?m"
 }
 
 # Create a quick backup of a file

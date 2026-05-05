@@ -7,6 +7,7 @@
 #   brew bundle cleanup              # Remove unlisted packages
 
 # Core System Tools
+brew 'coreutils'       # GNU core utilities (macOS has outdated versions)
 brew 'git'
 brew 'stow'
 brew 'mise'           # Manages language runtimes (node, python, rust, go, etc.)
@@ -35,11 +36,17 @@ brew 'jq'             # JSON processor
 brew 'yq'             # YAML processor
 brew 'just'           # Command runner (Makefile alternative)
 brew 'gh'             # GitHub CLI
-brew 'aws-sso-cli'
+brew 'awscli'         # AWS CLI v2
+brew 'aws-sso-cli'    # Smart way to handle aws sso credentials
 brew 'lazygit'        # Terminal UI for Git
 brew 'starship'       # Shell prompt
 brew 'helix'          # Text editor
 # brew 'hyperfine'      # Command benchmarking
+brew 'detect-secrets'  # Scan for secrets in codebases
+brew 'pre-commit'       # Framework for managing git hooks
+brew 'commitizen'       # Standardized commit message formatting
+brew 'shellcheck'       # Shell script analysis tool
+brew 'shfmt'
 
 # Containers & DevOps
 brew 'docker'
@@ -51,7 +58,7 @@ brew 'dive'           # Docker image analyzer
 brew 'lazydocker'     # Terminal UI for Docker
 
 # Database
-brew 'postgresql@14'
+# brew 'postgresql@14'
 
 # Specialized Tools
 # brew 'ffmpeg'
@@ -73,6 +80,6 @@ brew 'zellij'         # Terminal workspace (tmux alternative)
 # brew 'entr'           # File watcher for automation
 
 # AI
-# brew 'ollama'         # Local LLM management
+brew 'ollama'         # Local LLM management
 # brew 'copilot-cli'   # moved to mise (npm backend)
 # brew 'claude-code'   # moved to mise (npm backend)
