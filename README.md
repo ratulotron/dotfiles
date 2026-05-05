@@ -85,9 +85,10 @@ dot help       # Show commands
 
 - **Modern CLI tools**: `bat`, `fd`, `ripgrep`, `eza`, `git-delta`, `zoxide` replacing old Unix utilities
 - **Development setup**: Node.js, Python, Go, Docker, PostgreSQL
-- **macOS optimized**: Ghostty terminal, Raycast, Rectangle, developer-friendly system defaults
+- **macOS optimized**: Ghostty terminal, developer-friendly system defaults
 - **Shell enhancements**: Oh My Zsh, Atuin history sync, 50+ aliases, smart completions
 - **Tokyo Night theming**: Consistent colors across all tools
+- **Explicit shell loading**: 6-phase init order (Homebrew → PATH → config → init → compinit → completions)
 
 ## shell framework (Oh My Zsh)
 
@@ -98,7 +99,7 @@ The dotfiles use [Oh My Zsh](https://ohmyz.sh/) as the shell framework. It's ins
 
 The plugin list lives in `zsh/omz-config.zsh`. Themes are disabled because **Starship** handles the prompt (see `starship/.config/starship.toml`).
 
-To add or remove plugins, edit the `plugins=( ... )` array in `zsh/.zshrc` and reload with `source ~/.zshrc` or open a new terminal.
+To add or remove plugins, edit the `plugins=( ... )` array in `zsh/omz-config.zsh` and reload with `source ~/.zshrc` or open a new terminal.
 
 ## tool installation priority
 
@@ -127,6 +128,7 @@ Keep shared defaults in this repo, and put host-specific/secrets in untracked lo
 
 - Use `~/.localrc` for secrets and machine-only env vars.
 - Prefer local mise overrides in `~/.config/mise/config.local.toml` for machine-specific runtime/tool differences.
+- Use `~/.gitconfig.local` for personal Git identity (name, email).
 - Use `~/.gitconfig.machine` for machine-only Git settings (credential helpers, SSH URL rewrites).
 - Do not commit office-only, personal-only, or WSL-only overrides into shared topic files.
 
@@ -144,19 +146,19 @@ mise install
 
 - **Modern CLI**: `bat`, `eza`, `fd`, `ripgrep`, `git-delta`, `zoxide`, `dust`, `duf`, `bottom`, `procs`, `sd`, `xh`, `tealdeer`
 - **Dev tools**: `jq`, `yq`, `just`, `gh`, `aws-sso-cli`, `lazygit`, `starship`, `helix`
-- **System**: `git`, `stow`, `mise`, `wget`, `tree`, `htop`, `trash`
-- **Containers/DevOps**: `docker`, `docker-compose`, `docker-credential-helper`, `colima`, `ctop`, `dive`
-- **Database**: `postgresql@14`
+- **System**: `git`, `stow`, `mise`, `wget`, `tree`, `htop`
+- **Containers/DevOps**: `docker`, `docker-compose`, `docker-credential-helper`, `colima`, `ctop`, `dive`, `lazydocker`
+- **Security**: `detect-secrets`, `pre-commit`, `shellcheck`, `shfmt`
 - **Terminal & Navigation**: `zellij`, `broot`
 
 ### via Homebrew (`Mac.Brewfile`) - macOS only
 
-- **Apps**: Ghostty, iTerm2, VS Code, Cursor, Raycast, Rectangle, Notion, Slack, Discord, Spotify, Chrome
+- **Apps**: Ghostty, VS Code, Bitwarden, Obsidian, Slack, Discord, Spotify, Chrome, Zen
 
 ### via Mise (`mise/.config/mise/config.toml`)
 
 - **Languages**: Node.js, Python, Go
-- **Ecosystem tools**: `uv`, `ruff`, `pnpm`, `pyright` (npm backend), `gopls`, `goimports`, `dlv`
+- **Ecosystem tools**: `uv`, `ruff`, `pnpm`, `pyright` (npm backend), `gopls`, `goimports`, `dlv`, `claude-code`, `copilot`
 
 ## troubleshooting
 
