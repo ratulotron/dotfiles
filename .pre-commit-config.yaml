@@ -14,12 +14,18 @@ repos:
     -   id: detect-secrets
         args: ['--baseline', '.secrets.baseline']
         exclude: package.lock.json
--   repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.11.0
+-   repo: local
     hooks:
-    -   id: shellcheck
+    -   id: zsh-syntax
+        name: zsh syntax check
+        entry: zsh -n
+        language: system
+        types: [zsh]
+    -   id: sh-syntax
+        name: sh syntax check
+        entry: sh -n
+        language: system
         types: [sh]
-        exclude: '\.zsh$'
 -   repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.11.0-1
     hooks:
